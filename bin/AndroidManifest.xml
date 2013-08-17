@@ -55,7 +55,7 @@
             -->
         </activity>
         <activity
-            android:name="com.example.curlingmanagement.userinterface.MainMenuActivity"
+            android:name="com.example.curlingmanagement.view.MainMenuActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,49 +64,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.curlingmanagement.userinterface.GameActivity"
+            android:name="com.example.curlingmanagement.view.GameActivity"
             android:label="@string/title_activity_game"
-            android:parentActivityName="com.example.curlingmanagement.userinterface.GameMenuActivity" >
+            android:parentActivityName="com.example.curlingmanagement.view.GameMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.curlingmanagement.userinterface.GameMenuActivity" />
         </activity>
         <activity
-            android:name="com.example.curlingmanagement.userinterface.NewGameActivity"
+            android:name="com.example.curlingmanagement.view.NewGameActivity"
             android:label="@string/title_activity_new_game"
-            android:parentActivityName="com.example.curlingmanagement.userinterface.MainMenuActivity" >
+            android:parentActivityName="com.example.curlingmanagement.view.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.curlingmanagement.userinterface.MainMenuActivity" />
         </activity>
         <activity
-            android:name="com.example.curlingmanagement.userinterface.ManagementMainActivity"
+            android:name="com.example.curlingmanagement.view.ManagementMainActivity"
             android:label="@string/title_activity_management_main"
-            android:parentActivityName="com.example.curlingmanagement.userinterface.MainMenuActivity" >
+            android:parentActivityName="com.example.curlingmanagement.view.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.curlingmanagement.userinterface.MainMenuActivity" />
         </activity>
         <activity
-            android:name="com.example.curlingmanagement.userinterface.GameMenuActivity"
+            android:name="com.example.curlingmanagement.view.GameMenuActivity"
             android:label="@string/title_activity_game_menu"
-            android:parentActivityName="com.example.curlingmanagement.userinterface.MainMenuActivity" >
+            android:parentActivityName="com.example.curlingmanagement.view.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.curlingmanagement.userinterface.MainMenuActivity" />
         </activity>
         <activity
-            android:name="com.example.curlingmanagement.userinterface.FriendsListActivity"
+            android:name="com.example.curlingmanagement.view.FriendsListActivity"
             android:label="@string/title_activity_friends_list"
-            android:parentActivityName="com.example.curlingmanagement.userinterface.MainMenuActivity" >
+            android:parentActivityName="com.example.curlingmanagement.view.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.curlingmanagement.userinterface.MainMenuActivity" />
         </activity>
         <activity
-            android:name="com.example.curlingmanagement.userinterface.SearchOpponentActivity"
+            android:name="com.example.curlingmanagement.view.SearchOpponentActivity"
             android:label="@string/title_activity_search_opponent"
-            android:parentActivityName="com.example.curlingmanagement.userinterface.NewGameActivity" >
+            android:parentActivityName="com.example.curlingmanagement.view.NewGameActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.curlingmanagement.userinterface.NewGameActivity" />
