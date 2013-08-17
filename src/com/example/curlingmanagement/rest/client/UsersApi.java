@@ -27,7 +27,7 @@ final public class UsersApi {
     
     public static final String BASE_URL = "http://curlingmanagement.com";
     
-    public static final String AUTH_URI = BASE_URL + "/api.php?request=login";
+    public static final String AUTH_URI = BASE_URL + "/usersapi.php?request=login";
 
 	private static final String TAG = "UserApi";
 	
