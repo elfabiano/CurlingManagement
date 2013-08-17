@@ -116,11 +116,13 @@
 				$this->response('',406);
 			}
 			
-			$username = $this->_request['username'];		
+			$username = $this->_request['username'];
+			$auth_token = $this->_request['auth_token'];		
 			
 			// Input validations
 			if(!empty($username)) {
-				$sql = mysql_query("UPDATE users SET logged_in = 0 WHERE username = '$username'", $this->db);
+				$sql = mysql_query("UPDATE users SET logged_in = 0 WHERE username = '$username' 
+									AND auth_token = '$auth_token'", $this->db);
 				if(mysql_affected_rows() > 0){
 					// If success everything is good send header as "OK" and user details
 					$this->response('', 200);
@@ -171,25 +173,41 @@
 			$error = array('status' => "Failed", "msg" => "Invalid Username or Password");
 			$this->response($this->json($error), 400);	
 		}
-		
-		/*
-		private function users(){	
-			// Cross validation if the request method is GET else it will return "Not Acceptable" status
-			if($this->get_request_method() != "GET"){
+
+		private function updateUser() {
+			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
-			$sql = mysql_query("SELECT user_id, user_fullname, user_email FROM users WHERE user_status = 1", $this->db);
-			if(mysql_num_rows($sql) > 0){
-				$result = array();
-				while($rlt = mysql_fetch_array($sql,MYSQL_ASSOC)){
-					$result[] = $rlt;
-				}
-				// If success everythig is good send header as "OK" and return list of users in JSON format
-				$this->response($this->json($result), 200);
+			
+			$username = $this->_request['username'];
+			$password = $this->_request['password'];
+			$email = $this->_request['email'];
+			
+			if(empty($email)) {
+				$email = NULL;
 			}
-			$this->response('',204);	// If no records "No Content" status
+			
+			if(!filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($email)) {
+				$error = array('status' => "Forbidden", "msg" => "Not a valid email address");
+				$this->response($this->json($error), 403);
+			}
+				
+			// Input validations
+			if(!empty($username) and !empty($password)) {
+				$sql = mysql_query("UPDATE users SET password = '$password', email = '$email'
+						WHERE username = '$username'", $this->db);
+				if(mysql_affected_rows() > 0){
+					// If success everything is good send header as "OK" and user details
+					$this->response('', 200);
+				} else {
+					$this->response('', 204);	// If no records "No Content" status
+				}
+			} else {
+				// If invalid inputs "Bad Request" status message and reason
+				$error = array('status' => "Failed", "msg" => "Invalid Username or Password");
+				$this->response($this->json($error), 400);
+			}
 		}
-		*/
 		
 		private function deleteUser(){
 			// Cross validation if the request method is DELETE else it will return "Not Acceptable" status

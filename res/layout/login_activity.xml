@@ -83,7 +83,7 @@
                 android:autoText="false"
                 android:password="true"
                 android:inputType="textPassword"
-                android:text="password" />
+                android:text="text" />
             <TextView
                 android:id="@+id/email_label"
                 android:textAppearance="?android:attr/textAppearanceSmall"

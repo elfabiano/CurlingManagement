@@ -25,6 +25,8 @@ final public class UsersApi {
     
     public static final String PARAM_PASSWORD = "password";
     
+    public static final String PARAM_AUTH_TOKEN = "auth_token";
+    
     public static final String BASE_URL = "http://curlingmanagement.com";
     
     public static final String LOGIN_URI = BASE_URL + "/usersapi.php?request=login";
