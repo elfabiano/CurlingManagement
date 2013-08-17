@@ -42,7 +42,7 @@ final public class UsersApi {
 	private static final String TAG = "UsersApi";
 	
 	public static String login(String username, String password) {
-    	Log.v(TAG, "authenticate()");
+    	Log.v(TAG, "login()");
 
     	final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
     	params.add(new BasicNameValuePair(PARAM_USERNAME, username));
@@ -115,7 +115,41 @@ final public class UsersApi {
     }
 
 	public static boolean logout(String username, String authToken) {
-		return false;
+		Log.v(TAG, "logout()");
+
+    	final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+    	params.add(new BasicNameValuePair(PARAM_USERNAME, username));
+    	params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authToken));
+    	
+    	//Creates an entity to send to the server
+    	final HttpEntity entity;
+    	try {
+    		entity = new UrlEncodedFormEntity(params);
+    	} catch (final UnsupportedEncodingException e) {
+    		// this should never happen.
+    		throw new IllegalStateException(e);
+    	}
+    	
+    	//Creates a post to send the entity with
+    	final HttpPost post = new HttpPost(LOGOUT_URI);
+    	post.addHeader(entity.getContentType());
+    	post.setEntity(entity);
+    	
+    	//The server response
+    	final HttpResponse resp;
+    	
+    	try {
+    		resp = NetworkUtilities.getHttpClient().execute(post);
+    		if(resp.getStatusLine().getStatusCode() == 200) {
+    			return true;
+    		} else {
+    			return false;
+    		}
+    	} catch(Exception e) {
+    		Log.e(TAG, "Exception when logging out", e);
+    		return false;
+    	}
+
 	}
 
 	public static boolean addUser(String username, String password, String email) {
