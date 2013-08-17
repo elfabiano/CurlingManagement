@@ -1,0 +1,4 @@
+CurlingManagement
+=================
+
+An Android application
