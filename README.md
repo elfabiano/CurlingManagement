@@ -1,4 +1,6 @@
 CurlingManagement
 =================
 
-An Android application
+BlueBirdStudios presents: The Awesome life-changing app: Curling Management
+
+Le Hu Se Hers

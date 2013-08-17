@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Curling Management</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings for activity_main -->
+    <string name="main_menu_info">This is the main menu and the app´s first page. Ongoing games will also be shown here.</string>
+    <string name="button_exit">Exit</string>
+    <string name="button_play_game">Play game</string>
+    <string name="button_manage_team">Manage team</string>
+    <string name="button_new_game">New game</string>
+    <string name="button_logout">Logout</string>
+    <string name="listview_versus_text">vs.</string>
+
+    <!-- Strings for activity_game_menu -->
+    <string name="title_activity_game_menu">Game Menu</string>
+    <string name="game_menu_info">This is where the status (e.g score or who\'s turn it is) of the current game is shown</string>
+    <string name="button_play">Play</string>
+    <string name="button_resign">Resign</string>
+    <string name="hyphen">-</string>
+
+    <!-- Strings for activity_game -->
+    <string name="title_activity_game">Game</string>
+    <string name="game_info">This is where you play the game</string>
+
+    <!-- Strings for activity_new_game -->
+    <string name="title_activity_new_game">New Game</string>
+    <string name="new_game_info">This is a menu for starting a new game</string>
+    <string name="button_random_opponent">Find random opponent</string>
+    <string name="button_friends_list">Friends list</string>
+    <string name="button_search_opponent">Search by user name</string>
+
+    <!-- Strings for activity_management_main -->
+    <string name="title_activity_management_main">Management Main</string>
+    <string name="management_main_info">This is the main menu for the management part of the app</string>
+
+    <!-- Strings for activity_friends_list -->
+    <string name="title_activity_friends_list">Friends List</string>
+    <string name="friends_list_info">This is where the friends list is shown. If you click a friend, an invitation will be sent.</string>
+
+    <!-- Strings for activity_search_opponent -->
+    <string name="title_activity_search_opponent">Search Opponent</string>
+    <string name="search_opponent_info">Here you can search for opponents</string>
+    <string name="edit_search_text">Search username</string>
+    <string name="button_search">Search</string>
+    
+	<!-- Strings for login_activity -->
+	<string name="login_activity_username_label">Username</string>
+	<string name="login_activity_password_label">Password</string>
+	<string name="login_activity_email_label">Email</string>
+	<string name="login_activity_ok_button">Sign in</string>
+
+	<!-- Message shown in progress dialog while app connects to the server -->
+    <string name="ui_activity_authenticating">Authenticating</string>
+    
+   	<!-- Message shown in dialog if the username or password is invalid. -->
+    <string name="login_activity_loginfail_text_both"> The username or password 
+        isn\'t valid. An account is required. Please try again. </string>
+    <!-- Message shown in dialog if the password is invalid -->
+    <string name="login_activity_loginfail_text_pwonly">You entered the wrong 
+        password or your account has changed. Please re-enter your password.</string>
+    <!-- Message shown in dialog to prompt the user for their password -->
+    <string name="login_activity_loginfail_text_pwmissing">Type the password for this account.</string>
+        
+    <string name="login_activity_newaccount_text">Sign in to your Curling Management account.</string>
+    
+	<!-- Title string for login activity -->
+    <string name="login_activity_title">Sign in</string>
+        
+</resources>

@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchOpponentActivity" >
+
+    <TextView
+        android:id="@+id/search_opponent_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_opponent_info" />
+    
+    <EditText
+        android:id="@+id/search_opponent_text_field"
+        android:layout_height="wrap_content"
+		android:layout_below="@+id/search_opponent_text"
+        android:layout_width="wrap_content"
+        android:maxLength="16"
+        android:hint="@string/edit_search_text" />
+    
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       	android:layout_below="@+id/search_opponent_text"
+        android:layout_toRightOf="@+id/search_opponent_text_field"
+        android:text="@string/button_search" 
+        android:onClick="searchOpponent"/>    
+
+</RelativeLayout>

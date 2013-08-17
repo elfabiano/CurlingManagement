@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainMenuActivity" >
+
+    <TextView
+        android:id="@+id/main_menu_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/main_menu_info" />    
+        
+    <Button
+        android:id="@+id/button_manage_team"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_manage_team"
+        android:onClick="goToManagementMain" />
+    
+    <Button
+        android:id="@+id/button_new_game"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_new_game"
+        android:onClick="goToNewGame" />  
+        
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_logout"
+        android:onClick="logout" />       
+    
+<!--     <Button  -->
+<!--         android:id="@+id/button_ongoing_game" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content"         -->
+<!--         android:text="@string/button_ongoing_game" -->
+<!--         android:onClick="goToGameMenu" /> -->
+
+	<ListView 
+	    android:id="@+id/listview_ongoing_games" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" />
+
+</LinearLayout>

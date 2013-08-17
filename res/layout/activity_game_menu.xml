@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".GameMenuActivity" >
+
+    <TextView
+        android:id="@+id/game_menu_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:text="@string/game_menu_info" />
+    
+    <TextView 
+        android:id="@+id/home_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/text_hyphen"
+        android:layout_below="@+id/game_menu_info"
+        android:gravity="center" />
+    
+    <TextView 
+        android:id="@+id/text_hyphen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/game_menu_info"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        android:text="@string/hyphen" />
+    
+    <TextView 
+        android:id="@+id/away_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/text_hyphen"
+        android:layout_below="@+id/game_menu_info"
+        android:gravity="center" />
+    
+    <Button
+        android:id="@+id/button_play"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_username"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/button_play"
+        android:onClick="goToGame" />
+    
+    <Button
+        android:id="@+id/button_resign"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_play"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/button_resign"
+        android:onClick="resign" />
+
+</RelativeLayout>
