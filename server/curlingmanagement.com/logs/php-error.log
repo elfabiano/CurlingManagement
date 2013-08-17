@@ -1,0 +1,4 @@
+[02-Aug-2013 21:48:53] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /storage/content/95/183795/curlingmanagement.com/public_html/api.php on line 97
+[02-Aug-2013 21:49:36] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /storage/content/95/183795/curlingmanagement.com/public_html/api.php on line 97
+[02-Aug-2013 21:50:10] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /storage/content/95/183795/curlingmanagement.com/public_html/api.php on line 97
+[02-Aug-2013 23:28:33] PHP Parse error:  syntax error, unexpected '{' in /storage/content/95/183795/curlingmanagement.com/public_html/api.php on line 102

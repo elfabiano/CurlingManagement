@@ -1,0 +1,6 @@
+#!/bin/sh
+PHPRC=/storage/content/95/183795/curlingmanagement.com/settings/php.ini
+export PHPRC
+export PHP_FCGI_MAX_REQUESTS=5000
+export PHP_FCGI_CHILDREN=0
+exec /usr/local/php53/bin/php-cgi

@@ -1,0 +1,2 @@
+crawl-66-249-78-13.googlebot.com - - [16/Aug/2013:04:57:38 +0200] "GET /robots.txt HTTP/1.1" 404 208 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+crawl-66-249-78-13.googlebot.com - - [16/Aug/2013:04:57:39 +0200] "GET / HTTP/1.1" 200 8 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
