@@ -27,9 +27,17 @@ final public class UsersApi {
     
     public static final String BASE_URL = "http://curlingmanagement.com";
     
-    public static final String AUTH_URI = BASE_URL + "/usersapi.php?request=login";
+    public static final String LOGIN_URI = BASE_URL + "/usersapi.php?request=login";
+    
+    public static final String LOGOUT_URI = BASE_URL + "/usersapi.php?request=logout";
+    
+    public static final String PUT_USER_URI = BASE_URL + "/usersapi.php?request=adduser";
+    
+    public static final String UPDATE_USER_URI = BASE_URL + "/usersapi.php?request=updateuser";
+    
+    public static final String DELETE_USER_URI = BASE_URL + "/usersapi.php?request=deleteuser";
 
-	private static final String TAG = "UserApi";
+	private static final String TAG = "UsersApi";
 	
 	public static String login(String username, String password) {
     	Log.v(TAG, "authenticate()");
@@ -48,7 +56,7 @@ final public class UsersApi {
     	}
 
     	//Creates a post to send the entity with
-    	final HttpPost post = new HttpPost(AUTH_URI);
+    	final HttpPost post = new HttpPost(LOGIN_URI);
     	post.addHeader(entity.getContentType());
     	post.setEntity(entity);
 
@@ -105,22 +113,18 @@ final public class UsersApi {
     }
 
 	public static boolean logout(String username, String authToken) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public static boolean putUser(String username, String password, String email) {
-		// TODO Auto-generated method stub
+	public static boolean addUser(String username, String password, String email) {
 		return false;
 	}
 
 	public static boolean updateUser(String username, String password, String email) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public static boolean deleteUser(String username, String password) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

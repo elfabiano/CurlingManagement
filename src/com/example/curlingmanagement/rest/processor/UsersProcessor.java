@@ -36,4 +36,8 @@ public class UsersProcessor {
 		return false;
 	}
 	
+	public boolean addUser(String username, String password, String email) {
+		return false;
+	}
+	
 }
