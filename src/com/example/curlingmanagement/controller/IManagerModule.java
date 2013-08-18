@@ -1,4 +1,4 @@
-package com.example.curlingmanagement.managermodule;
+package com.example.curlingmanagement.controller;
 
 /**
  * Interface for the Manager module. Functions that are used to communicate with other
@@ -7,7 +7,7 @@ package com.example.curlingmanagement.managermodule;
  * @author Fabian
  *
  */
-public interface ManagerModule {
+public interface IManagerModule {
 
 	// public Team getCurrentTeam();
 }

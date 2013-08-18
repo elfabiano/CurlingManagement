@@ -26,7 +26,7 @@ import com.example.curlingmanagement.model.User;
  * @author Fabian
  *
  */
-public class UserInterfaceController implements UserInterface {
+public class UserInterfaceController implements IUserInterface {
 
 	private static UserInterfaceController mInstance;
 	

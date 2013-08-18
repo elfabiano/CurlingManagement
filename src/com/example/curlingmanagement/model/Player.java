@@ -1,4 +1,4 @@
-package com.example.curlingmanagement.managermodule;
+package com.example.curlingmanagement.model;
 
 /**
  * This class belongs to the ManagerModule. Communication with this class

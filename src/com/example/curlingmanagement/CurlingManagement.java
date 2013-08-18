@@ -2,9 +2,9 @@ package com.example.curlingmanagement;
 
 import android.app.Application;
 
+import com.example.curlingmanagement.controller.GameModuleController;
+import com.example.curlingmanagement.controller.ManagerModuleController;
 import com.example.curlingmanagement.controller.UserInterfaceController;
-import com.example.curlingmanagement.gamemodule.GameModuleController;
-import com.example.curlingmanagement.managermodule.ManagerModuleController;
 
 /**
  * Application class. Lives as long as the application is running. Can be reached via the

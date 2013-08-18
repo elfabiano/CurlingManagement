@@ -1,4 +1,4 @@
-package com.example.curlingmanagement.gamemodule;
+package com.example.curlingmanagement.controller;
 
 /**
  * Interface for the Game module. Functions that are used to communicate with other
@@ -7,6 +7,6 @@ package com.example.curlingmanagement.gamemodule;
  * @author Fabian
  *
  */
-public interface GameModule {
+public interface IGameModule {
 
 }

@@ -1,4 +1,6 @@
-package com.example.curlingmanagement.managermodule;
+package com.example.curlingmanagement.controller;
+
+import com.example.curlingmanagement.model.Team;
 
 /**
  * The controller of the manager module, implemented as a singelton class. 
@@ -8,7 +10,7 @@ package com.example.curlingmanagement.managermodule;
  * @author Fabian
  *
  */
-public class ManagerModuleController implements ManagerModule {
+public class ManagerModuleController implements IManagerModule {
 	
 	private static ManagerModuleController m_instance;
 	

@@ -1,4 +1,4 @@
-package com.example.curlingmanagement.gamemodule;
+package com.example.curlingmanagement.controller;
 
 /**
  * The controller of the game module, implemented as a singelton class. 
@@ -8,7 +8,7 @@ package com.example.curlingmanagement.gamemodule;
  * @author Fabian
  *
  */
-public class GameModuleController implements GameModule{
+public class GameModuleController implements IGameModule{
 
 	private static GameModuleController mInstance;
 	

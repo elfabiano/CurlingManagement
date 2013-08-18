@@ -1,4 +1,4 @@
-package com.example.curlingmanagement.managermodule;
+package com.example.curlingmanagement.model;
 
 import java.util.ArrayList;
 

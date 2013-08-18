@@ -7,6 +7,6 @@ package com.example.curlingmanagement.controller;
  * @author Fabian
  *
  */
-public interface UserInterface {
+public interface IUserInterface {
 
 }
