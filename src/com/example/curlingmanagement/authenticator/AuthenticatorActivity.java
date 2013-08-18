@@ -323,7 +323,7 @@ public class AuthenticatorActivity extends Activity {
             // We do the actual work of authenticating the user
             // in the NetworkUtilities class.
             try {
-                return UsersApi.login(mUsername, mPassword);
+                return new UsersApi().login(mUsername, mPassword);
             } catch (Exception ex) {
                 Log.e(TAG, "UserLoginTask.doInBackground: failed to authenticate");
                 Log.i(TAG, ex.toString());

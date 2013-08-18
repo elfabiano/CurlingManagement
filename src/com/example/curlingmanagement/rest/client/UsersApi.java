@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-final public class UsersApi {
+final public class UsersApi implements IUsersApi{
 	
     public static final String PARAM_USERNAME = "username";
     
@@ -33,7 +33,7 @@ final public class UsersApi {
     
     public static final String LOGOUT_URI = BASE_URL + "/usersapi.php?request=logout";
     
-    public static final String PUT_USER_URI = BASE_URL + "/usersapi.php?request=adduser";
+    public static final String ADD_USER_URI = BASE_URL + "/usersapi.php?request=adduser";
     
     public static final String UPDATE_USER_URI = BASE_URL + "/usersapi.php?request=updateuser";
     
@@ -41,7 +41,8 @@ final public class UsersApi {
 
 	private static final String TAG = "UsersApi";
 	
-	public static String login(String username, String password) {
+	@Override
+	public String login(String username, String password) {
     	Log.v(TAG, "login()");
 
     	final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -114,7 +115,8 @@ final public class UsersApi {
 		}
     }
 
-	public static boolean logout(String username, String authToken) {
+	@Override
+	public boolean logout(String username, String authToken) {
 		Log.v(TAG, "logout()");
 
     	final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -152,15 +154,18 @@ final public class UsersApi {
 
 	}
 
-	public static boolean addUser(String username, String password, String email) {
+	@Override
+	public boolean addUser(String username, String password, String email) {
 		return false;
 	}
 
-	public static boolean updateUser(String username, String password, String email) {
+	@Override
+	public boolean updateUser(String username, String password, String email) {
 		return false;
 	}
 
-	public static boolean deleteUser(String username, String password) {
+	@Override
+	public boolean deleteUser(String username, String password) {
 		return false;
 	}
 

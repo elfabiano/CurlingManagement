@@ -16,7 +16,7 @@ public class UsersProcessor {
 	
 	public boolean login(String username, String password) {
 		boolean success = false;
-		String authToken = UsersApi.login(username, password);
+		String authToken = new UsersApi().login(username, password);
 		if(authToken != null && authToken.length() > 0) {
 			success = true;
 		}
