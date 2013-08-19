@@ -3,7 +3,12 @@ package com.example.curlingmanagement.view;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -19,6 +24,8 @@ import com.example.curlingmanagement.R;
 import com.example.curlingmanagement.authenticator.AuthenticatorActivity;
 import com.example.curlingmanagement.controller.UserInterfaceController;
 import com.example.curlingmanagement.model.Game;
+import com.example.curlingmanagement.rest.service.ProcessorService;
+import com.example.curlingmanagement.rest.service.UsersServiceHelper;
 
 /**
  * Controller class for the main menu. As of now the main activity.
@@ -31,7 +38,16 @@ public class MainMenuActivity extends Activity {
 	public static final String TAG = "MainMenuActivity";
 	
 	public static final int REQUEST_AUTHENTICATE = 1;
+	
+	public static final String ACTION_LOGOUT = 
+			"com.example.curlingmanagement.view.MainMenuActivity.action_logout";
+	
+    private final IntentFilter mFilter = new IntentFilter(ACTION_LOGOUT);
+    
+    private UsersServiceHelper mLogoutServiceHelper;
 
+    /** Keep track of the progress dialog so we can dismiss it */
+    private ProgressDialog mProgressDialog = null;
 	private SharedPreferences mAccountPrefs;
 	private UserInterfaceController mController;
 	private String mUsername;
@@ -56,11 +72,29 @@ public class MainMenuActivity extends Activity {
         	mController.initSession(mUsername, mAuthToken, this);
         }
     }
+    
+    /*
+     * {@inheritDoc}
+     */
+    @Override
+    protected Dialog onCreateDialog(int id, Bundle args) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage(getText(R.string.ui_activity_logging_out));
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        // We save off the progress dialog in a field so that we can dismiss
+        // it later. We can't just call dismissDialog(0) because the system
+        // can lose track of our dialog if there's an orientation change.
+        mProgressDialog = dialog;
+        return dialog;
+    }
 
     @Override
     protected void onStart() {
     	super.onStart();    	
-    	Log.v(TAG, "onStart()");    	
+    	Log.v(TAG, "onStart()");
+		registerReceiver(mBroadcastReceiver, mFilter);
+		mLogoutServiceHelper = new UsersServiceHelper(this, ACTION_LOGOUT); 
     }    
     
     @Override
@@ -69,11 +103,11 @@ public class MainMenuActivity extends Activity {
     	Log.v(TAG, "onResume()");
     	if(mLoggedIn) 
     	{    		
-    		Log.v(TAG, "in the if");
+    		Log.v(TAG, "in the if");       	
     		start();    
     	}
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	Log.v(TAG, "onActivityResult()");
@@ -133,8 +167,12 @@ public class MainMenuActivity extends Activity {
     protected void onStop() {
     	super.onStop();
     	Log.v(TAG, "onStop()");
-    	if(mLoggedIn)
-        	UserInterfaceController.getInstance().saveOngoingGames(this);    	
+
+		unregisterReceiver(mBroadcastReceiver);
+
+    	if(mLoggedIn) {
+        	UserInterfaceController.getInstance().saveOngoingGames(this); 
+    	}
     }
     
     @Override
@@ -175,10 +213,28 @@ public class MainMenuActivity extends Activity {
     }
     
     public void logout(View view) {
-    	Editor editor = mAccountPrefs.edit();
-    	editor.clear();
-    	editor.commit();
-    	finish();
+    	if(mLoggedIn) {
+    		showProgress();
+    		mLogoutServiceHelper.logout(mUsername, mAuthToken);
+    	}
+    }
+    
+    /**
+     * Shows the progress UI for a lengthy operation.
+     */
+    @SuppressWarnings("deprecation")
+	private void showProgress() {
+        showDialog(0);
+    }
+
+    /**
+     * Hides the progress UI for a lengthy operation.
+     */
+    private void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
      
     /** Called when the user clicks the "New game" button */
@@ -203,4 +259,27 @@ public class MainMenuActivity extends Activity {
     		startActivity(intent);
     	}
     }
+    
+    private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		Bundle extras = intent.getExtras();
+		
+		String action = intent.getAction();
+		if(action.equals(ACTION_LOGOUT)) {
+		
+			boolean success = extras.getBoolean(ProcessorService.Extras.RESULT_EXTRA);
+			
+			hideProgress();
+			
+			if(success) {
+				finish();
+			} else {
+	            Log.e(TAG, "onAuthenticationResult: not logged out on server");
+	            finish();
+	        }		
+		}		
+	}
+};
 }

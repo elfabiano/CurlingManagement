@@ -77,68 +77,69 @@ public final class R {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int button_exit=0x7f060003;
-        public static final int button_friends_list=0x7f060013;
+        public static final int button_friends_list=0x7f060014;
         public static final int button_logout=0x7f060007;
         public static final int button_manage_team=0x7f060005;
         public static final int button_new_game=0x7f060006;
-        public static final int button_play=0x7f06000b;
+        public static final int button_play=0x7f06000c;
         public static final int button_play_game=0x7f060004;
-        public static final int button_random_opponent=0x7f060012;
-        public static final int button_resign=0x7f06000c;
-        public static final int button_search=0x7f06001c;
-        public static final int button_search_opponent=0x7f060014;
-        public static final int edit_search_text=0x7f06001b;
-        public static final int friends_list_info=0x7f060018;
-        public static final int game_info=0x7f06000f;
-        public static final int game_menu_info=0x7f06000a;
-        public static final int hyphen=0x7f06000d;
+        public static final int button_random_opponent=0x7f060013;
+        public static final int button_resign=0x7f06000d;
+        public static final int button_search=0x7f06001d;
+        public static final int button_search_opponent=0x7f060015;
+        public static final int edit_search_text=0x7f06001c;
+        public static final int friends_list_info=0x7f060019;
+        public static final int game_info=0x7f060010;
+        public static final int game_menu_info=0x7f06000b;
+        public static final int hyphen=0x7f06000e;
         public static final int listview_versus_text=0x7f060008;
-        public static final int login_activity_email_label=0x7f06001f;
+        public static final int login_activity_email_label=0x7f060020;
         /**  Message shown in dialog if the username or password is invalid. 
          */
-        public static final int login_activity_loginfail_text_both=0x7f060022;
+        public static final int login_activity_loginfail_text_both=0x7f060023;
         /**  Message shown in dialog to prompt the user for their password 
          */
-        public static final int login_activity_loginfail_text_pwmissing=0x7f060024;
+        public static final int login_activity_loginfail_text_pwmissing=0x7f060025;
         /**  Message shown in dialog if the password is invalid 
          */
-        public static final int login_activity_loginfail_text_pwonly=0x7f060023;
-        public static final int login_activity_newaccount_text=0x7f060025;
-        public static final int login_activity_ok_button=0x7f060020;
-        public static final int login_activity_password_label=0x7f06001e;
+        public static final int login_activity_loginfail_text_pwonly=0x7f060024;
+        public static final int login_activity_newaccount_text=0x7f060026;
+        public static final int login_activity_ok_button=0x7f060021;
+        public static final int login_activity_password_label=0x7f06001f;
         /**  Title string for login activity 
          */
-        public static final int login_activity_title=0x7f060026;
+        public static final int login_activity_title=0x7f060027;
         /**  Strings for login_activity 
          */
-        public static final int login_activity_username_label=0x7f06001d;
+        public static final int login_activity_username_label=0x7f06001e;
         /**  Strings for activity_main 
          */
         public static final int main_menu_info=0x7f060002;
-        public static final int management_main_info=0x7f060016;
-        public static final int new_game_info=0x7f060011;
-        public static final int search_opponent_info=0x7f06001a;
+        public static final int management_main_info=0x7f060017;
+        public static final int new_game_info=0x7f060012;
+        public static final int search_opponent_info=0x7f06001b;
         /**  Strings for activity_friends_list 
          */
-        public static final int title_activity_friends_list=0x7f060017;
+        public static final int title_activity_friends_list=0x7f060018;
         /**  Strings for activity_game 
          */
-        public static final int title_activity_game=0x7f06000e;
+        public static final int title_activity_game=0x7f06000f;
         /**  Strings for activity_game_menu 
          */
-        public static final int title_activity_game_menu=0x7f060009;
+        public static final int title_activity_game_menu=0x7f06000a;
         /**  Strings for activity_management_main 
          */
-        public static final int title_activity_management_main=0x7f060015;
+        public static final int title_activity_management_main=0x7f060016;
         /**  Strings for activity_new_game 
          */
-        public static final int title_activity_new_game=0x7f060010;
+        public static final int title_activity_new_game=0x7f060011;
         /**  Strings for activity_search_opponent 
          */
-        public static final int title_activity_search_opponent=0x7f060019;
+        public static final int title_activity_search_opponent=0x7f06001a;
         /**  Message shown in progress dialog while app connects to the server 
          */
-        public static final int ui_activity_authenticating=0x7f060021;
+        public static final int ui_activity_authenticating=0x7f060022;
+        public static final int ui_activity_logging_out=0x7f060009;
     }
     public static final class style {
         /** 

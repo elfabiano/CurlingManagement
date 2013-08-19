@@ -32,12 +32,29 @@ public class UsersProcessor {
 		return success;
 	}
 	
-	public boolean logout(String username, String auth_token) {
-		return false;
+	public boolean logout(String username, String authToken) {
+		boolean success = new UsersApi().logout(username, authToken);
+		if(success) {
+			SharedPreferences accountPrefs = mContext.getApplicationContext().
+					getSharedPreferences(Constants.ACCOUNT_PREFS_NAME, 0);
+			Editor editor = accountPrefs.edit();
+			editor.clear();
+			editor.commit();
+		}
+		
+		return success;
 	}
 	
 	public boolean addUser(String username, String password, String email) {
-		return false;
+		return new UsersApi().addUser(username, password, email);
+	}
+	
+	public boolean updateUser(String username, String password, String email) {
+		return new UsersApi().addUser(username, password, email);
+	}
+	
+	public boolean deleteUser(String username, String password) {
+		return new UsersApi().deleteUser(username, password);
 	}
 	
 }

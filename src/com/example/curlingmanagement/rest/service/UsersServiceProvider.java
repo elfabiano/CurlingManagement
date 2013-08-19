@@ -22,10 +22,10 @@ public class UsersServiceProvider implements IServiceProvider {
 		public static final String LOGOUT_PARAM_USERNAME = "username";
 		public static final String LOGOUT_PARAM_AUTH_TOKEN = "authToken";
 		
-		public static final int PUT_USER_METHOD = 3;
-		public static final String PUT_USER_PARAM_USERNAME = "username";
-		public static final String PUT_USER_PARAM_PASSWORD = "password";
-		public static final String PUT_USER_PARAM_EMAIL = "email";
+		public static final int ADD_USER_METHOD = 3;
+		public static final String ADD_USER_PARAM_USERNAME = "username";
+		public static final String ADD_USER_PARAM_PASSWORD = "password";
+		public static final String ADD_USER_PARAM_EMAIL = "email";
 		
 		public static final int UPDATE_USER_METHOD = 4;
 		public static final String UPDATE_USER_PARAM_USERNAME = "username";
@@ -44,6 +44,12 @@ public class UsersServiceProvider implements IServiceProvider {
 			return login(extras);
 		case Methods.LOGOUT_METHOD:
 			return logout(extras);
+		case Methods.ADD_USER_METHOD:
+			return addUser(extras);
+		case Methods.UPDATE_USER_METHOD:
+			return updateUser(extras);
+		case Methods.DELETE_USER_METHOD:
+			return deleteUser(extras);
 		}
 		return false;
 	}
@@ -58,5 +64,25 @@ public class UsersServiceProvider implements IServiceProvider {
 		String username = extras.getString(Methods.LOGOUT_PARAM_USERNAME);
 		String authToken = extras.getString(Methods.LOGOUT_PARAM_AUTH_TOKEN);
 		return new UsersProcessor(mContext).logout(username, authToken);
+	}
+	
+	private boolean addUser(Bundle extras) {
+		String username = extras.getString(Methods.ADD_USER_PARAM_USERNAME);
+		String password = extras.getString(Methods.ADD_USER_PARAM_PASSWORD);
+		String email = extras.getString(Methods.ADD_USER_PARAM_EMAIL);
+		return new UsersProcessor(mContext).addUser(username, password, email);
+	}
+	
+	private boolean updateUser(Bundle extras) {
+		String username = extras.getString(Methods.UPDATE_USER_PARAM_USERNAME);
+		String password = extras.getString(Methods.UPDATE_USER_PARAM_PASSWORD);
+		String email = extras.getString(Methods.UPDATE_USER_PARAM_EMAIL);
+		return new UsersProcessor(mContext).updateUser(username, password, email);
+	}
+	
+	private boolean deleteUser(Bundle extras) {
+		String username = extras.getString(Methods.DELETE_USER_PARAM_USERNAME);
+		String password = extras.getString(Methods.DELETE_USER_PARAM_PASSWORD);
+		return new UsersProcessor(mContext).deleteUser(username, password);
 	}
 }

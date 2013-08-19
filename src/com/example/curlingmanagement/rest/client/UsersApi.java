@@ -25,6 +25,8 @@ final public class UsersApi implements IUsersApi{
     
     public static final String PARAM_PASSWORD = "password";
     
+    public static final String PARAM_EMAIL = "email";
+    
     public static final String PARAM_AUTH_TOKEN = "auth_token";
     
     public static final String BASE_URL = "http://curlingmanagement.com";
@@ -156,17 +158,115 @@ final public class UsersApi implements IUsersApi{
 
 	@Override
 	public boolean addUser(String username, String password, String email) {
-		return false;
+
+		final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(PARAM_USERNAME, username));
+		params.add(new BasicNameValuePair(PARAM_PASSWORD, password));
+		params.add(new BasicNameValuePair(PARAM_EMAIL, email));
+
+		//Creates an entity to send to the server
+		final HttpEntity entity;
+		try {
+			entity = new UrlEncodedFormEntity(params);
+		} catch (final UnsupportedEncodingException e) {
+			// this should never happen.
+			throw new IllegalStateException(e);
+		}
+
+		//Creates a post to send the entity with
+		final HttpPost post = new HttpPost(ADD_USER_URI);
+		post.addHeader(entity.getContentType());
+		post.setEntity(entity);
+
+		//The server response
+		final HttpResponse resp;
+
+		try {
+			resp = NetworkUtilities.getHttpClient().execute(post);
+			if(resp.getStatusLine().getStatusCode() == 200) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch(Exception e) {
+			Log.e(TAG, "Exception when adding user", e);
+			return false;
+		}
 	}
 
 	@Override
 	public boolean updateUser(String username, String password, String email) {
-		return false;
+		
+		final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(PARAM_USERNAME, username));
+		params.add(new BasicNameValuePair(PARAM_PASSWORD, password));
+		params.add(new BasicNameValuePair(PARAM_EMAIL, email));
+
+		//Creates an entity to send to the server
+		final HttpEntity entity;
+		try {
+			entity = new UrlEncodedFormEntity(params);
+		} catch (final UnsupportedEncodingException e) {
+			// this should never happen.
+			throw new IllegalStateException(e);
+		}
+
+		//Creates a post to send the entity with
+		final HttpPost post = new HttpPost(UPDATE_USER_URI);
+		post.addHeader(entity.getContentType());
+		post.setEntity(entity);
+
+		//The server response
+		final HttpResponse resp;
+
+		try {
+			resp = NetworkUtilities.getHttpClient().execute(post);
+			if(resp.getStatusLine().getStatusCode() == 200) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch(Exception e) {
+			Log.e(TAG, "Exception when updating user", e);
+			return false;
+		}
 	}
 
 	@Override
 	public boolean deleteUser(String username, String password) {
-		return false;
+		
+		final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(PARAM_USERNAME, username));
+		params.add(new BasicNameValuePair(PARAM_PASSWORD, password));
+
+		//Creates an entity to send to the server
+		final HttpEntity entity;
+		try {
+			entity = new UrlEncodedFormEntity(params);
+		} catch (final UnsupportedEncodingException e) {
+			// this should never happen.
+			throw new IllegalStateException(e);
+		}
+
+		//Creates a post to send the entity with
+		final HttpPost post = new HttpPost(DELETE_USER_URI);
+		post.addHeader(entity.getContentType());
+		post.setEntity(entity);
+
+		//The server response
+		final HttpResponse resp;
+
+		try {
+			resp = NetworkUtilities.getHttpClient().execute(post);
+			if(resp.getStatusLine().getStatusCode() == 200) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch(Exception e) {
+			Log.e(TAG, "Exception when deleting user", e);
+			return false;
+		}
 	}
 
 }
