@@ -15,6 +15,8 @@ public interface IGamesApi {
 	public static final String FIELD_HOME_USERNAME = "home_username";	
 	public static final String FIELD_AWAY_USERNAME = "away_username";
 	
+	public Game[] getGames(String username, String authToken);
+	
 	public Game[] getPendingGames(String username, String authToken);
 	
 	public Game[] getOngoingGames(String username, String authToken);
