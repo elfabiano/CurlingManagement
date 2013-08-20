@@ -124,15 +124,28 @@
 			if($this->get_request_method() != "POST") {
 				$this->response('', 406);
 			}
-				
-			if(!empty($this->_request)) {
-				$sql = mysql_query("INSERT INTO games " . $this->getFieldsString() . " VALUES " . $this->getValuesString(), $this->db);
-				if($sql) {
-					$id = mysql_insert_id($this->db);
-					$this->response($this->json(array("id" => $id)), 200);
-				} else if(!$sql) {
-					$error = array('status' => "Failed", 'message' => "Game already exists");
-					$this->response($this->json($error), 409);
+			
+			$status = $this->_request['status'];
+			$username = $this->_request['username'];
+			
+			if(rand(0, 1) == 0) {
+				$username_field = "home_username";
+			} else {
+				$username_field = "away_username";
+			}
+			
+			if(!empty($status) && !empty($username)) {
+				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token' LIMIT 1", $this->db)) {
+					$sql = mysql_query("INSERT INTO games (status, " . $username_field . ") VALUES '$status', '$username'", $this->db);
+					if($sql) {
+						$id = mysql_insert_id($this->db);
+						$this->response($this->json(array("id" => $id)), 200);
+					} else if(!$sql) {
+						$error = array('status' => "Failed", 'message' => "Game already exists");
+						$this->response($this->json($error), 409);
+					}
+				} else {
+					$this->response('', 401);
 				}
 			} else {
 				// If invalid inputs "Bad Request" status message and reason
@@ -172,6 +185,42 @@
 			}
 		}
 		
+		private function updateGame() {
+			if($this->get_request_method() != "POST") {
+				$this->response('', 406);
+			}
+			
+			$auth_token = $this->_request['auth_token'];
+			$id = $this->_request['id'];
+			$status = $this->_request['status'];
+			$home_score = $this->_request['home_score'];
+			$away_score = $this->_request['away_score'];
+			$stones_played = $this->_request['stones_played'];
+			$home_username = $this->_request['home_username'];
+			$away_username = $this->_request['away_username'];
+				
+			if(!empty($auth_token) &&
+			!empty($id) &&
+			!empty($status) &&
+			!empty($home_username) &&
+			!empty($away_username)) {
+				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token'")) {
+					$sql = mysql_query("UPDATE games SET status = '$status', home_score = '$home_score', away_score = '$away_score', 
+							stones_played = '$stones_played', home_username = '$home_username', away_username = '$away_username'
+							WHERE id = '$id'", $this->db);
+					if(mysql_affected_rows() > 0) {
+						$this->response('', 200);
+					}
+				} else {
+					$this->response('', 401);
+				}
+			} else {
+				// If invalid inputs "Bad Request" status message and reason
+				$error = array('status' => "Failed", "msg" => "Bad parameters");
+				$this->response($this->json($error), 400);				
+			}
+		}
+		
 		private function deleteGame() {
 			if($this->get_request_method() != "POST") {
 				$this->response('', 406);
@@ -195,115 +244,6 @@
 				$error = array('status' => "Failed", "msg" => "Bad parameters");
 				$this->response($this->json($error), 400);
 			}			
-		}
-		
-		/* 
-		 * Can be used for signing up
-		 */
-		private function addUser() {
-			if($this->get_request_method() != "POST"){
-				$this->response('',406);
-			}
-			
-			$username = $this->_request['username'];
-			$password = $this->_request['password'];
-			$email = $this->_request['email'];
-			
-			if(empty($email)) {
-				$email = NULL;
-			}
-			
-			if(!filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($email)) {
-				$error = array('status' => "Forbidden", "msg" => "Not a valid email address");
-				$this->response($this->json($error), 403);
-			}
-			// Input validations
-			if(!empty($username) and !empty($password)) {
-				$sql = mysql_query("INSERT INTO users (username, password, email) 
-									VALUES ('$username', '$password', '$email')", $this->db);
-				/*$sql = mysql_query("INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')
-									IF NOT(SELECT * FROM users WHERE username == '$username')", $this->db);*/
-				if($sql) {
-					$this->response('', 200);
-				} else if(!$sql) {
-					$error = array('status' => "Failed", 'message' => "User already exists");
-					$this->response($this->json($error), 409);
-				}
-			}
-			// If invalid inputs "Bad Request" status message and reason
-			$error = array('status' => "Failed", "msg" => "Invalid Username or Password");
-			$this->response($this->json($error), 400);	
-		}
-
-		private function updateUser() {
-			if($this->get_request_method() != "POST"){
-				$this->response('',406);
-			}
-			
-			$username = $this->_request['username'];
-			$password = $this->_request['password'];
-			$email = $this->_request['email'];
-			
-			if(empty($email)) {
-				$email = NULL;
-			}
-			
-			if(!filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($email)) {
-				$error = array('status' => "Forbidden", "msg" => "Not a valid email address");
-				$this->response($this->json($error), 403);
-			}
-				
-			// Input validations
-			if(!empty($username) and !empty($password)) {
-				$sql = mysql_query("UPDATE users SET password = '$password', email = '$email'
-						WHERE username = '$username'", $this->db);
-				if(mysql_affected_rows() > 0){
-					// If success everything is good send header as "OK" and user details
-					$this->response('', 200);
-				} else {
-					$this->response('', 204);	// If no records "No Content" status
-				}
-			} else {
-				// If invalid inputs "Bad Request" status message and reason
-				$error = array('status' => "Failed", "msg" => "Invalid Username or Password");
-				$this->response($this->json($error), 400);
-			}
-		}
-		
-		private function deleteUser(){
-			// Cross validation if the request method is DELETE else it will return "Not Acceptable" status
-			if($this->get_request_method() != "POST"){
-				$this->response('',406);
-			}
-			
-			$username = $this->_request['username'];		
-			$password = $this->_request['password'];
-			
-			if(!empty($username) and !empty($password)) {
-				mysql_query("DELETE FROM users WHERE username = '$username'", $this->db);
-				if(mysql_affected_rows() > 0) {
-					$success = array('status' => "Success", "msg" => "Successfully one record deleted.");
-					$this->response($this->json($success),200);
-				}else{
-					$this->response('', 204);	// If no records "No Content" status
-				}
-			}else{
-				// If invalid inputs "Bad Request" status message and reason
-				$error = array('status' => "Failed", "msg" => "Invalid Username or Password");
-				$this->response($this->json($error), 400);	
-			}
-		}
-		
-		private function new_auth_token() {
-			$chars = "abcdefghijklmnopqrstuvwxyz";
-			$size = strlen($chars);
-			$str = "";
-	
-			for($i = 0; $i < 8; $i++) {
-				$str .= $chars[rand(0, $size - 1)];
-			}
-	
-			return $str;
 		}
 		
 		/*
