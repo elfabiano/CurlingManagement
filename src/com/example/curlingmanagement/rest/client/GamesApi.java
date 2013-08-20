@@ -9,25 +9,7 @@ import com.example.curlingmanagement.model.Game;
 public class GamesApi implements IGamesApi {
 
 	@Override
-	public Game[] getGames(String username, String authToken) {
-
-		return null;
-	}
-
-	@Override
-	public Game[] getPendingGames(String username, String authToken) {
-
-		return null;
-	}
-
-	@Override
-	public Game[] getOngoingGames(String username, String authToken) {
-
-		return null;
-	}
-
-	@Override
-	public Game[] getFinishedGames(String username, String authToken) {
+	public Game[] getGames(String username, String status, String authToken) {
 
 		return null;
 	}

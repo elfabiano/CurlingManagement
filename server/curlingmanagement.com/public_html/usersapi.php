@@ -167,7 +167,7 @@
 				} else if(!$sql) {
 					$error = array('status' => "Failed", 'message' => "User already exists");
 					$this->response($this->json($error), 409);
-				}
+				} 
 			}
 			// If invalid inputs "Bad Request" status message and reason
 			$error = array('status' => "Failed", "msg" => "Invalid Username or Password");
@@ -219,7 +219,7 @@
 			$password = $this->_request['password'];
 			
 			if(!empty($username) and !empty($password)) {
-				mysql_query("DELETE FROM users WHERE username = '$username'", $this->db);
+				mysql_query("DELETE FROM users WHERE username = '$username' AND password = '$password'", $this->db);
 				if(mysql_affected_rows() > 0) {
 					$success = array('status' => "Success", "msg" => "Successfully one record deleted.");
 					$this->response($this->json($success),200);

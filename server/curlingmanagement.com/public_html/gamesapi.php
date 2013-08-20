@@ -124,27 +124,77 @@
 			if($this->get_request_method() != "POST") {
 				$this->response('', 406);
 			}
-			
-			$status = $this->_request['status'];
-			$home_score->_request['home_score'];
-			
-			$line = "INSERT INTO games " . $this->getFieldsString() . " VALUES " . $this->getValuesString();
-			
-			echo $line . '<br>';
 				
 			if(!empty($this->_request)) {
 				$sql = mysql_query("INSERT INTO games " . $this->getFieldsString() . " VALUES " . $this->getValuesString(), $this->db);
 				if($sql) {
-					$this->response('', 200);
+					$id = mysql_insert_id($this->db);
+					$this->response($this->json(array("id" => $id)), 200);
 				} else if(!$sql) {
 					$error = array('status' => "Failed", 'message' => "Game already exists");
 					$this->response($this->json($error), 409);
 				}
 			} else {
 				// If invalid inputs "Bad Request" status message and reason
-				$error = array('status' => "Failed", "msg" => "No parameters");
+				$error = array('status' => "Failed", "msg" => "Bad parameters");
 				$this->response($this->json($error), 400);
 			}
+		}
+		
+		private function getGames() {
+			if($this->get_request_method() != "POST") {
+				$this->response('', 406);
+			}
+			
+			$username = $this->_request['username'];
+			$status = $this->_request['status'];
+			$auth_token = $this->_request['auth_token'];
+			
+			if(!empty($username) && !empty($auth_token)) {
+				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token' LIMIT 1", $this->db)) {
+					if(empty($status)) {
+						$sql = mysql_query("SELECT * FROM games WHERE home_username = '$username' OR away_username = '$username'", $this->db);
+					} else {
+						$sql = mysql_query("SELECT * FROM games 
+								WHERE status = '$status' AND (home_username = '$username' OR away_username = '$username')", $this->db);
+					}
+					while($row = mysql_fetch_assoc($sql)) {
+						$results[] = $row;
+					}
+					$this->response($this->json($results), 200);
+				} else {
+					$this->response('', 401);
+				}
+			} else {
+				// If invalid inputs "Bad Request" status message and reason
+				$error = array('status' => "Failed", "msg" => "Bad parameters");
+				$this->response($this->json($error), 400);				
+			}
+		}
+		
+		private function deleteGame() {
+			if($this->get_request_method() != "POST") {
+				$this->response('', 406);
+			}
+			
+			$id = $this->_request['id'];
+			$auth_token = $this->_request['auth_token'];
+			
+			if(!empty($id) && !empty($auth_token)) {
+				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token'", $this->db)) {
+					$sql = mysql_query("DELETE FROM games WHERE id = '$id'", $this->db);
+					if(mysql_affected_rows() > 0) {
+						$success = array('status' => "Success", "msg" => "Successfully one record deleted.");
+						$this->response($this->json($success),200);
+					}
+				} else {
+					$this->response('', 401);
+				}
+			} else {
+				// If invalid inputs "Bad Request" status message and reason
+				$error = array('status' => "Failed", "msg" => "Bad parameters");
+				$this->response($this->json($error), 400);
+			}			
 		}
 		
 		/* 
