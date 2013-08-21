@@ -169,6 +169,7 @@ public class MainMenuActivity extends Activity {
     	Log.v(TAG, "onStop()");
 
 		unregisterReceiver(mBroadcastReceiver);
+		hideProgress();
 
     	if(mLoggedIn) {
         	UserInterfaceController.getInstance().saveOngoingGames(this); 
