@@ -49,17 +49,24 @@
 			$username = $this->_request['username'];
 			
 			if(rand(0, 1) == 0) {
-				$username_field = "home_username";
+				$home_username = $this->_request['username'];
+				$away_username = NULL;
 			} else {
-				$username_field = "away_username";
+				$away_username = $this->_request['username'];
+				$home_username = NULL;
 			}
 			
-			if(!empty($status) && !empty($username)) {
+			if(!empty($status)) {
 				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token' LIMIT 1", $this->db)) {
-					$sql = mysql_query("INSERT INTO games (status, " . $username_field . ") VALUES '$status', '$username'", $this->db);
+					$sql = mysql_query("INSERT INTO games (status, home_username, away_username) 
+										VALUES ('$status', '$home_username', '$away_username')", $this->db);
 					if($sql) {
 						$id = mysql_insert_id($this->db);
-						$this->response($this->json(array("id" => $id)), 200);
+						$result = mysql_query("SELECT * FROM games WHERE id = '$id' LIMIT 1");
+						if($result) {
+							$row = mysql_fetch_assoc($result);
+							$this->response($this->json($row), 200);
+						}
 					} else if(!$sql) {
 						$error = array('status' => "Failed", 'message' => "Game already exists");
 						$this->response($this->json($error), 409);
@@ -112,7 +119,7 @@
 			
 			$auth_token = $this->_request['auth_token'];
 			$id = $this->_request['id'];
-			$status = $this->_request['status'];
+			$status = $this->_request['status'];			
 			$home_score = $this->_request['home_score'];
 			$away_score = $this->_request['away_score'];
 			$stones_played = $this->_request['stones_played'];
@@ -129,7 +136,9 @@
 							stones_played = '$stones_played', home_username = '$home_username', away_username = '$away_username'
 							WHERE id = '$id'", $this->db);
 					if(mysql_affected_rows() > 0) {
-						$this->response('', 200);
+						$res = mysql_query("SELECT modified FROM games WHERE id = '$id'");
+						$array = mysql_fetch_assoc($res);
+						$this->response($this->json($array), 200);
 					}
 				} else {
 					$this->response('', 401);
@@ -150,11 +159,11 @@
 			$auth_token = $this->_request['auth_token'];
 			
 			if(!empty($id) && !empty($auth_token)) {
-				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token'", $this->db)) {
+				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token' LIMIT 1", $this->db)) {
 					$sql = mysql_query("DELETE FROM games WHERE id = '$id'", $this->db);
 					if(mysql_affected_rows() > 0) {
 						$success = array('status' => "Success", "msg" => "Successfully one record deleted.");
-						$this->response($this->json($success),200);
+						$this->response($this->json($success), 200);
 					}
 				} else {
 					$this->response('', 401);

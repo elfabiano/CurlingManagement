@@ -108,7 +108,7 @@ public class Game {
 	public String getModified() {
 		return mModified;
 	}
-	public void String(String modified) {
+	public void setModified(String modified) {
 		this.mModified = modified;
 	}
 }
