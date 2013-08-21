@@ -1,10 +1,14 @@
 package com.example.curlingmanagement.resources.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 
-public class Game {
+public class Game implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
 	private int mId;
 	private String mStatus;
 	private int mCurrentStateId;

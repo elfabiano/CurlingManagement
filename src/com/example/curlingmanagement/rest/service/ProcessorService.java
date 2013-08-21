@@ -58,6 +58,7 @@ public class ProcessorService extends Service
 	public static class Providers
 	{
 		public static final int USERS_PROVIDER = 1;
+		public static final int GAMES_PROVIDER = 2;
 	}
 
 	private IServiceProvider GetProvider(int providerId)

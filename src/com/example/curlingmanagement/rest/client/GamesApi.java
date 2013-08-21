@@ -46,7 +46,6 @@ public class GamesApi implements IGamesApi {
 
 	private static final String TAG = "GamesApi";
 
-
 	@Override
 	public ArrayList<Game> getGames(String username, String status, String authToken) {
 		Log.v(TAG, "getGames()");
@@ -129,7 +128,7 @@ public class GamesApi implements IGamesApi {
 	}
 
 	@Override
-	public Game addGame(String status, String username, String authToken) {
+	public Game addGame(String username, String status, String authToken) {
 		Log.v(TAG, "addGame()");
 
 		final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
