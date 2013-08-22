@@ -11,6 +11,7 @@ public class Game implements Serializable {
 
 	private int mId;
 	private String mStatus;
+	private String mWaitingFor;
 	private int mCurrentStateId;
 	private int mPreviousStateId;
 	private int mHomeScore;
@@ -41,10 +42,11 @@ public class Game implements Serializable {
 		mModified = new Timestamp(date.getTime()).toString();
 	}
 	
-	public Game(int id, String status, int currentStateId, int previousStateId, int homeScore, 
+	public Game(int id, String status, String waitingFor, int currentStateId, int previousStateId, int homeScore, 
 			int awayScore, int stonesPlayed, String homeUsername, String awayUsername, String modified) {
 		mId = id;
 		mStatus = status;
+		mWaitingFor = waitingFor;
 		mCurrentStateId = currentStateId;
 		mPreviousStateId = previousStateId;
 		mHomeScore = homeScore;
@@ -114,5 +116,13 @@ public class Game implements Serializable {
 	}
 	public void setModified(String modified) {
 		this.mModified = modified;
+	}
+
+	public String getWaitingFor() {
+		return mWaitingFor;
+	}
+
+	public void setWaitingFor(String waitingFor) {
+		this.mWaitingFor = waitingFor;
 	}
 }

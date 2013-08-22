@@ -16,7 +16,7 @@ private Context mContext;
 		return false;
 	}
 	
-	public boolean addGame(String username, String status, String authToken) {
+	public boolean addGame(String username, String status, String waitingFor, String authToken) {
 		return false;
 	}
 	

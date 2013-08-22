@@ -19,10 +19,11 @@ public class GamesServiceHelper extends ServiceHelperBase {
 		RunMethod(GamesServiceProvider.Methods.GET_GAMES_METHOD, extras);
 	}
 	
-	public void addGame(String username, String status, String authToken) {
+	public void addGame(String username, String status, String waitingFor, String authToken) {
 		Bundle extras = new Bundle();
 		extras.putString(GamesServiceProvider.Methods.ADD_GAME_PARAM_USERNAME, username);
 		extras.putString(GamesServiceProvider.Methods.ADD_GAME_PARAM_STATUS, status);
+		extras.putString(GamesServiceProvider.Methods.ADD_GAME_PARAM_WAITING_FOR, waitingFor);
 		extras.putString(GamesServiceProvider.Methods.ADD_GAME_PARAM_AUTH_TOKEN, authToken);
 		RunMethod(GamesServiceProvider.Methods.ADD_GAME_METHOD, extras);
 	}

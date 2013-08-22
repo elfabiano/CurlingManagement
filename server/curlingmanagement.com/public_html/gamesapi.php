@@ -46,7 +46,7 @@
 			}
 			
 			$status = $this->_request['status'];
-			$username = $this->_request['username'];
+			$waiting_for = $this->_request['waiting_for'];
 			
 			if(rand(0, 1) == 0) {
 				$home_username = $this->_request['username'];
@@ -58,8 +58,8 @@
 			
 			if(!empty($status)) {
 				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token' LIMIT 1", $this->db)) {
-					$sql = mysql_query("INSERT INTO games (status, home_username, away_username) 
-										VALUES ('$status', '$home_username', '$away_username')", $this->db);
+					$sql = mysql_query("INSERT INTO games (status, waiting_for, home_username, away_username) 
+										VALUES ('$status', '$waiting_for', $home_username', '$away_username')", $this->db);
 					if($sql) {
 						$id = mysql_insert_id($this->db);
 						$result = mysql_query("SELECT * FROM games WHERE id = '$id' LIMIT 1");
@@ -119,7 +119,8 @@
 			
 			$auth_token = $this->_request['auth_token'];
 			$id = $this->_request['id'];
-			$status = $this->_request['status'];			
+			$status = $this->_request['status'];
+			$waiting_for = $this->_request['waiting_for'];			
 			$home_score = $this->_request['home_score'];
 			$away_score = $this->_request['away_score'];
 			$stones_played = $this->_request['stones_played'];
@@ -132,9 +133,9 @@
 			!empty($home_username) &&
 			!empty($away_username)) {
 				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token'")) {
-					$sql = mysql_query("UPDATE games SET status = '$status', home_score = '$home_score', away_score = '$away_score', 
-							stones_played = '$stones_played', home_username = '$home_username', away_username = '$away_username'
-							WHERE id = '$id'", $this->db);
+					$sql = mysql_query("UPDATE games SET status = '$status', waiting_for = '$waiting_for', home_score = '$home_score', 
+							away_score = '$away_score', stones_played = '$stones_played', home_username = '$home_username', 
+							away_username = '$away_username' WHERE id = '$id'", $this->db);
 					if(mysql_affected_rows() > 0) {
 						$res = mysql_query("SELECT modified FROM games WHERE id = '$id'");
 						$array = mysql_fetch_assoc($res);

@@ -22,6 +22,7 @@ public class GamesServiceProvider implements IServiceProvider {
 						
 		public static final int ADD_GAME_METHOD = 2;
 		public static final String ADD_GAME_PARAM_STATUS = "status";
+		public static final String ADD_GAME_PARAM_WAITING_FOR = "waitingFor";
 		public static final String ADD_GAME_PARAM_USERNAME = "username";
 		public static final String ADD_GAME_PARAM_AUTH_TOKEN = "authToken";
 				
@@ -58,9 +59,10 @@ public class GamesServiceProvider implements IServiceProvider {
 	
 	private boolean addGame(Bundle extras) {
 		String status = extras.getString(Methods.ADD_GAME_PARAM_STATUS);
+		String waitingFor = extras.getString(Methods.ADD_GAME_PARAM_WAITING_FOR);
 		String username = extras.getString(Methods.ADD_GAME_PARAM_USERNAME);
 		String authToken = extras.getString(Methods.ADD_GAME_PARAM_AUTH_TOKEN);
-		return new GamesProcessor(mContext).addGame(status, username, authToken);
+		return new GamesProcessor(mContext).addGame(status, waitingFor, username, authToken);
 	}
 	
 	private boolean updateGame(Bundle extras) {

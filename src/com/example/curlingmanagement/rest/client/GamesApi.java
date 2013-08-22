@@ -38,6 +38,7 @@ public class GamesApi implements IGamesApi {
 	private static final String PARAM_AUTH_TOKEN = "auth_token";
 	private static final String PARAM_ID = "id";
 	private static final String PARAM_STATUS = "status";
+	private static final String PARAM_WAITING_FOR = "waiting_for";
 	private static final String PARAM_HOME_SCORE = "home_score";
 	private static final String PARAM_AWAY_SCORE = "away_score";
 	private static final String PARAM_STONES_PLAYED = "stones_played";
@@ -99,6 +100,7 @@ public class GamesApi implements IGamesApi {
 					JSONObject row = array.getJSONObject(i);
 					games.add(new Game(row.getInt("id"), 
 							row.getString("status"),
+							row.getString("waiting_for"),
 							row.getInt("current_state_id"),
 							row.getInt("previous_state_id"),
 							row.getInt("home_score"),
@@ -128,11 +130,12 @@ public class GamesApi implements IGamesApi {
 	}
 
 	@Override
-	public Game addGame(String username, String status, String authToken) {
+	public Game addGame(String username, String status, String waitingFor, String authToken) {
 		Log.v(TAG, "addGame()");
 
 		final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(PARAM_STATUS, status));
+		params.add(new BasicNameValuePair(PARAM_WAITING_FOR, waitingFor));		
 		params.add(new BasicNameValuePair(PARAM_USERNAME, username));
 		params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authToken));
 
@@ -176,6 +179,7 @@ public class GamesApi implements IGamesApi {
 
 				Game game = (new Game(obj.getInt("id"), 
 						obj.getString("status"),
+						obj.getString("waiting_for"),
 						obj.getInt("current_state_id"),
 						obj.getInt("previous_state_id"),
 						obj.getInt("home_score"),
@@ -214,6 +218,7 @@ public class GamesApi implements IGamesApi {
 			obj.put(PARAM_AUTH_TOKEN, authToken);
 			obj.put(PARAM_ID, game.getId());
 			obj.put(PARAM_STATUS, game.getStatus());
+			obj.put(PARAM_WAITING_FOR, game.getWaitingFor());
 			obj.put(PARAM_HOME_SCORE, game.getHomeScore());
 			obj.put(PARAM_AWAY_SCORE, game.getAwayScore());
 			obj.put(PARAM_STONES_PLAYED, game.getStonesPlayed());
