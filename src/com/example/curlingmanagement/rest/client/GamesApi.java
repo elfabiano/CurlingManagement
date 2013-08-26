@@ -216,7 +216,7 @@ public class GamesApi implements IGamesApi {
 
 		try {
 			obj.put(PARAM_AUTH_TOKEN, authToken);
-			obj.put(PARAM_ID, game.getId());
+			obj.put(PARAM_ID, game.getServerId());
 			obj.put(PARAM_STATUS, game.getStatus());
 			obj.put(PARAM_WAITING_FOR, game.getWaitingFor());
 			obj.put(PARAM_HOME_SCORE, game.getHomeScore());

@@ -9,7 +9,7 @@ public class Game implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private int mId;
+	private int mServerId;
 	private String mStatus;
 	private String mWaitingFor;
 	private int mCurrentStateId;
@@ -44,7 +44,7 @@ public class Game implements Serializable {
 	
 	public Game(int id, String status, String waitingFor, int currentStateId, int previousStateId, int homeScore, 
 			int awayScore, int stonesPlayed, String homeUsername, String awayUsername, String modified) {
-		mId = id;
+		mServerId = id;
 		mStatus = status;
 		mWaitingFor = waitingFor;
 		mCurrentStateId = currentStateId;
@@ -57,11 +57,11 @@ public class Game implements Serializable {
 		mModified = modified;
 	}
 	
-	public int getId() {
-		return mId;
+	public int getServerId() {
+		return mServerId;
 	}
-	public void setId(int id) {
-		this.mId = id;
+	public void setServerId(int id) {
+		this.mServerId = id;
 	}
 	public String getStatus() {
 		return mStatus;
