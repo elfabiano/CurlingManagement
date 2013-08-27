@@ -14,9 +14,7 @@ import java.util.Date;
 import android.content.Context;
 
 import com.example.curlingmanagement.Constants;
-import com.example.curlingmanagement.authenticator.Session;
-import com.example.curlingmanagement.model.Game;
-import com.example.curlingmanagement.model.User;
+import com.example.curlingmanagement.resources.model.Game;
 
 /**
  * The controller of the user interface module, implemented as a singelton class. 
@@ -30,8 +28,6 @@ public class UserInterfaceController implements IUserInterface {
 
 	private static UserInterfaceController mInstance;
 	
-	public Session mCurrentSession;
-
 	/**
 	 * Default constructor
 	 */
@@ -62,19 +58,9 @@ public class UserInterfaceController implements IUserInterface {
 	 * @param context
 	 */
 	public void initSession(String username, String authToken, Context context) {
-		Date now = new Date();
-		mCurrentSession = new Session(username, authToken, new Timestamp(now.getTime()));
-		
-		loadOngoingGames(context);
 		
 		//This is to simplify the implementation. More thorough authentication will be needed later on.
 		//mCurrentSession.changeUsername("username");
-	}
-	
-	public void destroySession() {
-		if(mCurrentSession != null) {
-			mCurrentSession = null;
-		}
 	}
 
 	/**
@@ -84,13 +70,7 @@ public class UserInterfaceController implements IUserInterface {
 	 *  null otherwise
 	 */
 	public Game searchRandomOpponent() {		
-		//*********This code will be removed******************
-		Game game = new Game(new User("RandomOpponent"), true);
-		
-		mCurrentSession.getUser().addOngoingGame(game);
-		
-		return game;
-		//****************************************************
+		return null;
 	}
 	
 	/**
@@ -98,7 +78,6 @@ public class UserInterfaceController implements IUserInterface {
 	 * @param opponentName
 	 */
 	public void newGame(String opponentName) {
-		mCurrentSession.getUser().addOngoingGame(new Game(new User(opponentName), true));
 	}
 
 	/**
@@ -106,15 +85,14 @@ public class UserInterfaceController implements IUserInterface {
 	 * 
 	 * @param game
 	 */
-	public void resignGame(Game game) {
-		mCurrentSession.getUser().removeOngoingGame(game);				
+	public void resignGame(Game game) {			
 	}
 
 	/**
 	 * Saves ongoing games to internal storage.
 	 * @param context
 	 */
-	public void saveOngoingGames(Context context) {
+	/*public void saveOngoingGames(Context context) {
 		ArrayList<Game> ongoingGames = mCurrentSession.getUser().getOngoingGames();
 		String username = mCurrentSession.getUser().getUsername();
 
@@ -144,13 +122,13 @@ public class UserInterfaceController implements IUserInterface {
 			}
 			
 		}
-	}
+	}*/
 	
 	/**
 	 * Loads ongoing games from internal storage.
 	 * @param context
 	 */
-	public void loadOngoingGames(Context context) {
+	/*public void loadOngoingGames(Context context) {
 		String username = mCurrentSession.getUser().getUsername();
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
@@ -180,23 +158,5 @@ public class UserInterfaceController implements IUserInterface {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	/**
-	 * 
-	 * @return the current session.
-	 */
-	public Session getCurrentSession() {
-		return mCurrentSession;
-	}
-
-	/**
-	 * Sets the current session.
-	 * 
-	 * @param currentSession
-	 */
-	public void setCurrentSession(Session currentSession) {
-		this.mCurrentSession = currentSession;
-	}
-
+	}*/
 }

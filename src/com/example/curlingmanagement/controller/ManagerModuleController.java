@@ -1,7 +1,5 @@
 package com.example.curlingmanagement.controller;
 
-import com.example.curlingmanagement.model.Team;
-
 /**
  * The controller of the manager module, implemented as a singelton class. 
  * Keeps a static instance of itself in order to be reachable from anywhere
@@ -13,9 +11,7 @@ import com.example.curlingmanagement.model.Team;
 public class ManagerModuleController implements IManagerModule {
 	
 	private static ManagerModuleController m_instance;
-	
-	public Team mCurrentTeam;
-	
+		
 	/**
 	 * Default constructor
 	 */

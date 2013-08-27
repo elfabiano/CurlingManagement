@@ -2,7 +2,7 @@ package com.example.curlingmanagement.view;
 
 import com.example.curlingmanagement.R;
 import com.example.curlingmanagement.controller.UserInterfaceController;
-import com.example.curlingmanagement.model.Game;
+import com.example.curlingmanagement.resources.model.Game;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

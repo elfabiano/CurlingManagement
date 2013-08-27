@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.curlingmanagement.Constants;
 import com.example.curlingmanagement.R;
 import com.example.curlingmanagement.controller.UserInterfaceController;
-import com.example.curlingmanagement.model.Game;
+import com.example.curlingmanagement.resources.model.Game;
 
 /**
  * Controller class for the game menu page
@@ -51,17 +51,6 @@ public class GameMenuActivity extends Activity {
 
 		homeUser.setTextSize(16);
 		awayUser.setTextSize(16);
-		
-		if (mGame.isHomeGame()) {
-			homeUser.setText(UserInterfaceController.getInstance().
-					getCurrentSession().getUser().getUsername());
-			awayUser.setText(mGame.getOpponent().getUsername());
-		}
-		else {
-			awayUser.setText(UserInterfaceController.getInstance().
-					getCurrentSession().getUser().getUsername());
-			homeUser.setText(mGame.getOpponent().getUsername());
-		}
 		
 		// Show the Up button in the action bar.
 		//setupActionBar();

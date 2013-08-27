@@ -3,7 +3,7 @@ package com.example.curlingmanagement.view;
 import java.util.ArrayList;
 
 import com.example.curlingmanagement.R;
-import com.example.curlingmanagement.model.Game;
+import com.example.curlingmanagement.resources.model.Game;
 
 import android.app.Activity;
 import android.content.Context;
@@ -54,7 +54,7 @@ public class OngoingGamesAdapter extends ArrayAdapter<Game> {
 		}
 		
 		Game game = mOngoingGames.get(position);
-		holder.txtTitle.setText(game.getOpponent().getUsername());
+		//holder.txtTitle.setText(game.getOpponent().getUsername());
 		
 		return row;
 	}
