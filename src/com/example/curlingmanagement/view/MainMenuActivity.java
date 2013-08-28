@@ -2,7 +2,6 @@ package com.example.curlingmanagement.view;
 
 import java.util.ArrayList;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.LoaderManager;
@@ -14,7 +13,6 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -24,10 +22,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.curlingmanagement.Constants;
+import com.example.curlingmanagement.CurlingManagement;
 import com.example.curlingmanagement.R;
 import com.example.curlingmanagement.authenticator.AuthenticatorActivity;
-import com.example.curlingmanagement.controller.UserInterfaceController;
+import com.example.curlingmanagement.authenticator.Session;
+import com.example.curlingmanagement.controller.OngoingGamesAdapter;
+import com.example.curlingmanagement.controller.OngoingGamesLoader;
 import com.example.curlingmanagement.resources.model.Game;
+import com.example.curlingmanagement.rest.service.GamesServiceHelper;
 import com.example.curlingmanagement.rest.service.ProcessorService;
 import com.example.curlingmanagement.rest.service.UsersServiceHelper;
 
@@ -37,29 +39,37 @@ import com.example.curlingmanagement.rest.service.UsersServiceHelper;
  * @author Fabian
  *
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainMenuActivity extends Activity 
 implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 
 	public static final String TAG = "MainMenuActivity";
 
 	public static final int REQUEST_AUTHENTICATE = 1;
+	
+	public static final int LOADER_ID = 1;
 
 	public static final String ACTION_LOGOUT = 
 			"com.example.curlingmanagement.view.MainMenuActivity.action_logout";
+	
+	public static final String ACTION_CHANGE_GAMES =
+			"com.example.curlingmanagement.view.MainMenuActivity.action_games_refreshed";
 
 	private final IntentFilter mFilter = new IntentFilter(ACTION_LOGOUT);
+	
+	private LoaderManager.LoaderCallbacks<ArrayList<Game>> mCallbacks;
 
 	private UsersServiceHelper mLogoutServiceHelper;
+	private GamesServiceHelper mUpdateGamesHelper;
 
 	/** Keep track of the progress dialog so we can dismiss it */
 	private ProgressDialog mProgressDialog = null;
 	private SharedPreferences mAccountPrefs;
-	private UserInterfaceController mController;
+	//private UserInterfaceController mController;
 	private String mUsername;
 	private String mAuthToken;
 	/** Flags if the activity is created for the first time */
 	private Boolean mLoggedIn;
+	private OngoingGamesAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +77,16 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		Log.v(TAG, "onCreate()");
 
 		setContentView(R.layout.activity_main_menu);
-
+		
+		mCallbacks = this;
+		
 		mAccountPrefs = getApplicationContext().getSharedPreferences(Constants.ACCOUNT_PREFS_NAME, 0);
-		/*Editor editor = mAccountPrefs.edit();
-        editor.clear();
-        editor.commit();*/        
-		mController = UserInterfaceController.getInstance();
+        
 		if(mLoggedIn = findCredentials()) {
-			Log.v(TAG, "onCreate(), initSession");
-			mController.initSession(mUsername, mAuthToken, this);
+			Log.v(TAG, "onCreate(), logged in");
+			CurlingManagement.setSession(new Session(mUsername, mAuthToken));
+			LoaderManager lm = getLoaderManager();
+			lm.initLoader(LOADER_ID, null, mCallbacks);
 		}
 	}
 
@@ -100,7 +111,8 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		super.onStart();    	
 		Log.v(TAG, "onStart()");
 		registerReceiver(mBroadcastReceiver, mFilter);
-		mLogoutServiceHelper = new UsersServiceHelper(this, ACTION_LOGOUT); 
+		mLogoutServiceHelper = new UsersServiceHelper(this, ACTION_LOGOUT);
+		mUpdateGamesHelper = new GamesServiceHelper(this, ACTION_CHANGE_GAMES);
 	}    
 
 	@Override
@@ -110,28 +122,40 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		if(mLoggedIn) 
 		{    		
 			Log.v(TAG, "in the if");       	
-			//start();    
+			mUpdateGamesHelper.getGames(mUsername, null, mAuthToken);
 		}
 	}
 
-
 	@Override
-	public Loader<ArrayList<Game>> onCreateLoader(int arg0, Bundle arg1) {
-		// TODO Auto-generated method stub
-		return null;
+	public Loader<ArrayList<Game>> onCreateLoader(int id, Bundle args) {
+		return new OngoingGamesLoader(this);
 	}
 
 	@Override
-	public void onLoadFinished(Loader<ArrayList<Game>> arg0,
-			ArrayList<Game> arg1) {
-		// TODO Auto-generated method stub
+	public void onLoadFinished(Loader<ArrayList<Game>> loader, ArrayList<Game> data) {
+		switch(loader.getId()) {
+		case LOADER_ID:
+			mAdapter = 
+			new OngoingGamesAdapter(this, R.layout.listview_item_row, data);
+			ListView listView = (ListView) findViewById(R.id.listview_ongoing_games);
+			listView.setAdapter(mAdapter);
 
+			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, final View view, 
+						int position, long id) {
+					Game game = (Game) parent.getItemAtPosition(position);
+					goToGameMenu(view, game);
+				}
+			});
+			break;
+		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<Game>> arg0) {
-		// TODO Auto-generated method stub
-
+		mAdapter.clear();
 	}
 
 	@Override
@@ -150,15 +174,13 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 				editor.putString(Constants.PREFS_KEY_AUTH_TOKEN, mAuthToken);
 				editor.commit();
 
-				//mUsername = mAccountPrefs.getString(Constants.PREFS_KEY_USERNAME, null);
-				//mAuthToken = mAccountPrefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
-
-				Log.v(TAG, "mUsername: " + mUsername + ", mAuthToken: " + mAuthToken);    
-
-				/*if(mController.getCurrentSession() == null) {
-					Log.v(TAG, "onActivityResult(), initSession");
-					mController.initSession(mUsername, mAuthToken, this);
-				}*/
+				Log.v(TAG, "mUsername: " + mUsername + ", mAuthToken: " + mAuthToken);
+				
+				CurlingManagement.setSession(new Session(mUsername, mAuthToken));
+				
+				LoaderManager lm = getLoaderManager();
+				lm.initLoader(LOADER_ID, null, mCallbacks);
+				
 				mLoggedIn = true;
 			} else if(resultCode == RESULT_CANCELED) {
 				finish();
@@ -196,7 +218,7 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 
 		unregisterReceiver(mBroadcastReceiver);
 		hideProgress();
-
+		
 		/*if(mLoggedIn) {
 			UserInterfaceController.getInstance().saveOngoingGames(this); 
 		}*/

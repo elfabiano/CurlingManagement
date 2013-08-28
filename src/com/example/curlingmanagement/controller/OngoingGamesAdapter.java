@@ -1,4 +1,4 @@
-package com.example.curlingmanagement.view;
+package com.example.curlingmanagement.controller;
 
 import java.util.ArrayList;
 
@@ -44,7 +44,8 @@ public class OngoingGamesAdapter extends ArrayAdapter<Game> {
 			row = inflater.inflate(mLayoutResourceId, parent, false);
 			
 			holder = new GameHolder();
-			holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
+			holder.txtHomeUsername = (TextView)row.findViewById(R.id.txt_home_username);
+			holder.txtAwayUsername = (TextView)row.findViewById(R.id.txt_away_username);
 			
 			row.setTag(holder);
 		}
@@ -54,13 +55,15 @@ public class OngoingGamesAdapter extends ArrayAdapter<Game> {
 		}
 		
 		Game game = mOngoingGames.get(position);
-		//holder.txtTitle.setText(game.getOpponent().getUsername());
+		holder.txtHomeUsername.setText(game.getHomeUsername());
+		holder.txtAwayUsername.setText(game.getAwayUsername());
 		
 		return row;
 	}
 	
 	static class GameHolder {
-		TextView txtTitle; 
+		TextView txtHomeUsername; 
+		TextView txtAwayUsername;
 	}
 	
 }

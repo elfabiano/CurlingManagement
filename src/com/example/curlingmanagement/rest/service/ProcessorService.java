@@ -98,7 +98,11 @@ public class ProcessorService extends Service
 			identifier.append("{");
 			identifier.append(key);
 			identifier.append(":");
-			identifier.append(extras.get(key).toString());
+			if(extras.get(key) == null) {
+				identifier.append("null");
+			} else {
+				identifier.append(extras.get(key).toString());
+			}
 			identifier.append("}");
 		}
 

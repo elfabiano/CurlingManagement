@@ -2,6 +2,7 @@ package com.example.curlingmanagement;
 
 import android.app.Application;
 
+import com.example.curlingmanagement.authenticator.Session;
 import com.example.curlingmanagement.controller.GameModuleController;
 import com.example.curlingmanagement.controller.ManagerModuleController;
 import com.example.curlingmanagement.controller.UserInterfaceController;
@@ -15,6 +16,16 @@ import com.example.curlingmanagement.controller.UserInterfaceController;
  */
 public class CurlingManagement extends Application {
 	
+	public static Session session;
+	
+	public static Session getSession() {
+		return session;
+	}
+
+	public static void setSession(Session session) {
+		CurlingManagement.session = session;
+	}
+
 	/**
 	 * Is only run once, when the app is started.
 	 */

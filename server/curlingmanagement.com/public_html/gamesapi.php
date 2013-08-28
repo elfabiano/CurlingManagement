@@ -93,10 +93,12 @@
 			if(!empty($username) && !empty($auth_token)) {
 				if(mysql_query("SELECT * FROM users WHERE auth_token = '$auth_token' LIMIT 1", $this->db)) {
 					if(empty($status)) {
-						$sql = mysql_query("SELECT * FROM games WHERE home_username = '$username' OR away_username = '$username'", $this->db);
+						$sql = mysql_query("SELECT * FROM games 
+								WHERE home_username = '$username' OR away_username = '$username' OR waiting_for = '$username'", $this->db);
 					} else {
 						$sql = mysql_query("SELECT * FROM games 
-								WHERE status = '$status' AND (home_username = '$username' OR away_username = '$username')", $this->db);
+								WHERE status = '$status' AND 
+								(home_username = '$username' OR away_username = '$username' OR waiting_for = '$username')", $this->db);
 					}
 					while($row = mysql_fetch_assoc($sql)) {
 						$results[] = $row;

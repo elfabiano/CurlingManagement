@@ -24,7 +24,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09001a;
+        public static final int action_settings=0x7f09001b;
         public static final int away_username=0x7f090003;
         public static final int button_friends_list=0x7f09000c;
         public static final int button_logout=0x7f090009;
@@ -34,23 +34,24 @@ public final class R {
         public static final int button_random_opponent=0x7f09000b;
         public static final int button_resign=0x7f090005;
         public static final int button_search_opponent=0x7f09000d;
-        public static final int email_edit=0x7f090017;
-        public static final int email_label=0x7f090016;
+        public static final int email_edit=0x7f090018;
+        public static final int email_label=0x7f090017;
         public static final int game_menu_info=0x7f090000;
         public static final int home_username=0x7f090001;
         public static final int listview_ongoing_games=0x7f09000a;
         public static final int main_menu_text=0x7f090006;
-        public static final int message=0x7f090012;
-        public static final int message_bottom=0x7f090018;
-        public static final int ok_button=0x7f090019;
-        public static final int password_edit=0x7f090015;
+        public static final int message=0x7f090013;
+        public static final int message_bottom=0x7f090019;
+        public static final int ok_button=0x7f09001a;
+        public static final int password_edit=0x7f090016;
         public static final int search_opponent_text=0x7f09000e;
         public static final int search_opponent_text_field=0x7f09000f;
         public static final int text_hyphen=0x7f090002;
-        public static final int txtTitle=0x7f090011;
-        public static final int txt_versus=0x7f090010;
-        public static final int username_edit=0x7f090013;
-        public static final int username_fixed=0x7f090014;
+        public static final int txt_away_username=0x7f090012;
+        public static final int txt_home_username=0x7f090010;
+        public static final int txt_versus=0x7f090011;
+        public static final int username_edit=0x7f090014;
+        public static final int username_fixed=0x7f090015;
     }
     public static final class layout {
         public static final int activity_friends_list=0x7f030000;
