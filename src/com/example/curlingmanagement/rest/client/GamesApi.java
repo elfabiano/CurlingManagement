@@ -24,6 +24,8 @@ import com.example.curlingmanagement.resources.model.Game;
 
 public class GamesApi implements IGamesApi {
 	
+	private static final String TAG = "GamesApi";
+	
 	public static final String BASE_URL = "http://curlingmanagement.com";
 	
     public static final String GET_GAMES_URI = BASE_URL + "/gamesapi.php?request=getgames";
@@ -39,13 +41,14 @@ public class GamesApi implements IGamesApi {
 	private static final String PARAM_ID = "id";
 	private static final String PARAM_STATUS = "status";
 	private static final String PARAM_WAITING_FOR = "waiting_for";
+	private static final String PARAM_CURRENT_STATE_ID = "current_state_id";
+	private static final String PARAM_PREVIOUS_STATE_ID = "previous_state_id";
 	private static final String PARAM_HOME_SCORE = "home_score";
 	private static final String PARAM_AWAY_SCORE = "away_score";
 	private static final String PARAM_STONES_PLAYED = "stones_played";
 	private static final String PARAM_HOME_USERNAME = "home_username";
 	private static final String PARAM_AWAY_USERNAME = "away_username";
-
-	private static final String TAG = "GamesApi";
+	private static final String PARAM_MODIFIED = "modified";
 
 	@Override
 	public ArrayList<Game> getGames(String username, String status, String authToken) {
@@ -98,18 +101,43 @@ public class GamesApi implements IGamesApi {
 
 				for(int i = 0; i < array.length(); i++) {
 					JSONObject row = array.getJSONObject(i);
-					games.add(new Game(row.getInt("id"), 
-							row.getString("status"),
-							row.getString("waiting_for"),
-							row.getInt("current_state_id"),
-							row.getInt("previous_state_id"),
-							row.getInt("home_score"),
-							row.getInt("away_score"),
-							row.getInt("stones_played"),
-							row.getString("home_username"),
-							row.getString("away_username"),
-							row.getString("modified")));				
+					Game game = new Game();
+					if(!row.isNull(PARAM_ID)) {
+						game.setServerId(row.getInt(PARAM_ID));
+					}
+					if(!row.isNull(PARAM_STATUS)) {
+						game.setStatus(row.getString(PARAM_STATUS));
+					}
+					if(!row.isNull(PARAM_WAITING_FOR)) {
+						game.setWaitingFor(row.getString(PARAM_WAITING_FOR));
+					}
+					if(!row.isNull(PARAM_CURRENT_STATE_ID)) {
+						game.setCurrentStateId(row.getInt(PARAM_CURRENT_STATE_ID));
+					}
+					if(!row.isNull(PARAM_PREVIOUS_STATE_ID)) {
+						game.setPreviousStateId(row.getInt(PARAM_PREVIOUS_STATE_ID));
+					}
+					if(!row.isNull(PARAM_HOME_SCORE)) {
+						game.setHomeScore(row.getInt(PARAM_HOME_SCORE));
+					}
+					if(!row.isNull(PARAM_AWAY_SCORE)) {
+						game.setAwayScore(row.getInt(PARAM_AWAY_SCORE));
+					}
+					if(!row.isNull(PARAM_STONES_PLAYED)) {
+						game.setStonesPlayed(row.getInt(PARAM_STONES_PLAYED));
+					}
+					if(!row.isNull(PARAM_HOME_USERNAME)) {
+						game.setHomeUsername(row.getString(PARAM_HOME_USERNAME));
+					}
+					if(!row.isNull(PARAM_AWAY_USERNAME)) {
+						game.setAwayUsername(row.getString(PARAM_AWAY_USERNAME));
+					}
+					if(!row.isNull(PARAM_MODIFIED)) {
+						game.setModified(row.getString(PARAM_MODIFIED));
+					}
+					games.add(game);
 				}
+				Log.v(TAG, "getGames() returning " + String.valueOf(games.size()) + " games");
 				return games;
 			} 
 			finally {				

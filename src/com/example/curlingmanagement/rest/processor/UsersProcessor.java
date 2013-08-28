@@ -3,11 +3,15 @@ package com.example.curlingmanagement.rest.processor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.example.curlingmanagement.Constants;
 import com.example.curlingmanagement.rest.client.UsersApi;
 
 public class UsersProcessor {
+	
+	private static final String TAG = "UsersProcessor";
+	
 	private Context mContext;
 	
 	public UsersProcessor(Context context) {
@@ -15,6 +19,8 @@ public class UsersProcessor {
 	}
 	
 	public boolean login(String username, String password) {
+		Log.v(TAG, "login()");
+		
 		boolean success = false;
 		String authToken = new UsersApi().login(username, password);
 		if(authToken != null && authToken.length() > 0) {
@@ -33,6 +39,8 @@ public class UsersProcessor {
 	}
 	
 	public boolean logout(String username, String authToken) {
+		Log.v(TAG, "logout()");
+		
 		boolean success = new UsersApi().logout(username, authToken);
 		if(success) {
 			SharedPreferences accountPrefs = mContext.getApplicationContext().
@@ -46,14 +54,20 @@ public class UsersProcessor {
 	}
 	
 	public boolean addUser(String username, String password, String email) {
+		Log.v(TAG, "addUser()");
+		
 		return new UsersApi().addUser(username, password, email);
 	}
 	
 	public boolean updateUser(String username, String password, String email) {
+		Log.v(TAG, "updateUser()");
+		
 		return new UsersApi().addUser(username, password, email);
 	}
 	
 	public boolean deleteUser(String username, String password) {
+		Log.v(TAG, "deleteUser()");
+		
 		return new UsersApi().deleteUser(username, password);
 	}
 	

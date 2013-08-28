@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.curlingmanagement.resources.database.ResourcesContract.GamesTable;
 import com.example.curlingmanagement.resources.database.ResourcesDbHelper;
@@ -12,6 +13,8 @@ import com.example.curlingmanagement.resources.model.Game;
 import com.example.curlingmanagement.rest.client.GamesApi;
 
 public class GamesProcessor {
+	
+	private static final String TAG = "GamesProcessor";
 	private Context mContext;
 	private ResourcesDbHelper mDbHelper;
 	
@@ -21,6 +24,8 @@ public class GamesProcessor {
 	}
 	
 	public boolean getGames(String username, String status, String authToken) {
+		Log.v(TAG, "getGames");
+		
 		ArrayList<Game> games = new GamesApi().getGames(username, status, authToken);
 		
 		if(games == null || games.size() == 0) {
@@ -54,6 +59,8 @@ public class GamesProcessor {
 	}
 	
 	public boolean addGame(String username, String status, String waitingFor, String authToken) {
+		Log.v(TAG, "addGame()");
+		
 		Game game = new GamesApi().addGame(username, status, waitingFor, authToken);
 		
 		if(game == null) {
@@ -84,6 +91,8 @@ public class GamesProcessor {
 	}
 	
 	public boolean updateGame(Game game, String authToken) {
+		Log.v(TAG, "updateGame()");
+		
 		Game updatedGame = new GamesApi().updateGame(game, authToken);
 		
 		if (updatedGame == null) {
@@ -114,7 +123,9 @@ public class GamesProcessor {
 		return false;
 	}
 
-	public boolean deleteGame(int id, String authToken) {		
+	public boolean deleteGame(int id, String authToken) {	
+		Log.v(TAG, "deleteGame()");
+		
 		if(new GamesApi().deleteGame(id, authToken) == true) {
 			SQLiteDatabase db = mDbHelper.getWritableDatabase();
 

@@ -67,6 +67,8 @@ public class ProcessorService extends Service
 		{
 		case Providers.USERS_PROVIDER:
 			return new UsersServiceProvider(this);
+		case Providers.GAMES_PROVIDER:
+			return new GamesServiceProvider(this);
 		}
 		return null;
 	}
