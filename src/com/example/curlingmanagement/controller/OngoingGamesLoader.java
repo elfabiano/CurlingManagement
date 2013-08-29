@@ -6,6 +6,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.curlingmanagement.CurlingManagement;
 import com.example.curlingmanagement.resources.database.ResourcesContract.GamesTable;
@@ -13,6 +14,8 @@ import com.example.curlingmanagement.resources.database.ResourcesDbHelper;
 import com.example.curlingmanagement.resources.model.Game;
 
 public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
+	
+	private static final String TAG = "OngoingGamesLoader";
 	
 	public ArrayList<Game> mData;
 	private GameIntentReceiver mObserver;
@@ -23,6 +26,8 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 
 	@Override
 	public ArrayList<Game> loadInBackground() {
+		Log.v(TAG, "loadInBackground()");
+		
 		ArrayList<Game> data = new ArrayList<Game>();
 		
 		SQLiteDatabase db = new ResourcesDbHelper(getContext()).getReadableDatabase();
@@ -43,13 +48,16 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 		
 		String sortOrder = GamesTable.COLUMN_NAME_MODIFIED + " DESC";
 		
-		String selection = "(" +
-				GamesTable.COLUMN_NAME_HOME_USERNAME + " OR " +
-				GamesTable.COLUMN_NAME_AWAY_USERNAME + " OR " +
-				GamesTable.COLUMN_NAME_WAITING_FOR + ") LIKE ?";
+		String selection = 
+				GamesTable.COLUMN_NAME_HOME_USERNAME + " LIKE ? OR " +
+				GamesTable.COLUMN_NAME_AWAY_USERNAME + " LIKE ? OR " +
+				GamesTable.COLUMN_NAME_WAITING_FOR + " LIKE ?";
 		
+		String username = CurlingManagement.session.getUsername();
 		String[] selectionArgs = {
-			CurlingManagement.session.getUsername()	
+				username,
+				username,
+				username
 		};
 		
 		Cursor c = db.query(
@@ -62,7 +70,10 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 				sortOrder
 				);
 		
+		Log.v(TAG, "after query");
+		
 		while(c.moveToNext()) {
+			Log.v(TAG, "fetching query results");
 			data.add(new Game(
 						c.getInt(0),
 						c.getString(1),
@@ -83,6 +94,8 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 	
 	@Override
 	public void deliverResult(ArrayList<Game> data) {
+		Log.v(TAG, "deliverResult()");
+		
 		if(isReset()) {
 			// The Loader has been reset; ignore the result and invalidate the data.
 			releaseResources(data);
@@ -108,6 +121,8 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 
 	@Override
 	protected void onStartLoading() {
+		Log.v(TAG, "onStartLoading()");
+		
 		if(mData != null) {
 			deliverResult(mData);
 		}
@@ -123,6 +138,7 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 	
 	@Override
 	protected void onStopLoading() {
+		Log.v(TAG, "onStopLoading()");
 		// The Loader is in a stopped state, so we should attempt to cancel the 
 	    // current load (if there is one).
 	    cancelLoad();	    
@@ -133,6 +149,7 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 	
 	 @Override
 	  protected void onReset() {
+		 Log.v(TAG, "onReset()");
 	    // Ensure the loader has been stopped.
 	    onStopLoading();
 	 
@@ -151,6 +168,7 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 	 
 	 @Override
 	  public void onCanceled(ArrayList<Game> data) {
+		 Log.v(TAG, "onCanceled()");
 	    // Attempt to cancel the current asynchronous load.
 	    super.onCanceled(data);
 	 
@@ -160,6 +178,7 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 	  }
 
 	private void releaseResources(ArrayList<Game> data) {
+		Log.v(TAG, "releaseResources()");
 		// For a simple List, there is nothing to do. For something like a Cursor, we 
 		// would close it in this method. All resources associated with the Loader
 		// should be released here.

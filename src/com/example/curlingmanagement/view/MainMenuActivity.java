@@ -82,9 +82,10 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		
 		mAccountPrefs = getApplicationContext().getSharedPreferences(Constants.ACCOUNT_PREFS_NAME, 0);
         
-		if(mLoggedIn = findCredentials()) {
+		if(mLoggedIn = findCredentials()) {		
 			Log.v(TAG, "onCreate(), logged in");
 			CurlingManagement.setSession(new Session(mUsername, mAuthToken));
+			Log.v(TAG, "initializing loader");
 			LoaderManager lm = getLoaderManager();
 			lm.initLoader(LOADER_ID, null, mCallbacks);
 		}
@@ -121,18 +122,22 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		Log.v(TAG, "onResume()");
 		if(mLoggedIn) 
 		{    		
-			Log.v(TAG, "in the if");       	
+			Log.v(TAG, "onResume(), fetching games from server");       	
 			mUpdateGamesHelper.getGames(mUsername, null, mAuthToken);
 		}
 	}
 
 	@Override
 	public Loader<ArrayList<Game>> onCreateLoader(int id, Bundle args) {
+		Log.v(TAG, "onCreateLoader()");
+		
 		return new OngoingGamesLoader(this);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<ArrayList<Game>> loader, ArrayList<Game> data) {
+		Log.v(TAG, "onLoadFinished()");
+		
 		switch(loader.getId()) {
 		case LOADER_ID:
 			mAdapter = 
@@ -155,12 +160,15 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<Game>> arg0) {
+		Log.v(TAG, "onLoaderReset)");
+		
 		mAdapter.clear();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.v(TAG, "onActivityResult()");
+		
 		if(requestCode == REQUEST_AUTHENTICATE) {
 			if(resultCode == RESULT_OK) {    			
 				//Retrieve the username and auth token from the login activity
@@ -178,6 +186,7 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 				
 				CurlingManagement.setSession(new Session(mUsername, mAuthToken));
 				
+				Log.v(TAG, "initializing loader");
 				LoaderManager lm = getLoaderManager();
 				lm.initLoader(LOADER_ID, null, mCallbacks);
 				

@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import com.example.curlingmanagement.view.MainMenuActivity;
 
 public class GameIntentReceiver extends BroadcastReceiver {
 	
+	private static final String TAG = "GameIntentReceiver";
 	private final OngoingGamesLoader mLoader;
 	
 	public GameIntentReceiver (OngoingGamesLoader loader) {
@@ -19,6 +21,8 @@ public class GameIntentReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		Log.v(TAG, "onReceive()");
+		
 		mLoader.onContentChanged();
 	}
 

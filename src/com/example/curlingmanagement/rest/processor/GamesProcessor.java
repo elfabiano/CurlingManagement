@@ -33,6 +33,9 @@ public class GamesProcessor {
 		}
 		
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
+		int deletedRows = db.delete(GamesTable.TABLE_NAME, "1", null);
+		
+		Log.v(TAG, "getGames(), deleted" + deletedRows + "rows");
 		
 		// Create a new map of values, where column names are the keys
 		ContentValues values = new ContentValues();
