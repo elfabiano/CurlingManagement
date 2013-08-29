@@ -2,7 +2,10 @@ package com.example.curlingmanagement;
 
 public class Constants {
 	public final static String GAME = "com.example.curlingmanagement.ONGOING_GAME";
+	
 	public final static String GAMES_FILENAME = "_games";	
+	
+	public static final int SYNC_INTERVAL = 60;
     /**
      * Account type string.
      */

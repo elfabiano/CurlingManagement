@@ -3,9 +3,12 @@ package com.example.curlingmanagement.rest.processor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.curlingmanagement.Constants;
+import com.example.curlingmanagement.resources.database.ResourcesDbHelper;
+import com.example.curlingmanagement.resources.database.ResourcesContract.GamesTable;
 import com.example.curlingmanagement.rest.client.UsersApi;
 
 public class UsersProcessor {
@@ -48,6 +51,11 @@ public class UsersProcessor {
 			Editor editor = accountPrefs.edit();
 			editor.clear();
 			editor.commit();
+			
+			SQLiteDatabase db = new ResourcesDbHelper(mContext).getWritableDatabase();
+			
+			int count = db.delete(GamesTable.TABLE_NAME, "1", null);
+			Log.v(TAG, "logout(), deleted" + count + "rows");
 		}
 		
 		return success;

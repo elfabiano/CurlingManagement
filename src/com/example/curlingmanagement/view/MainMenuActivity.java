@@ -1,6 +1,9 @@
 package com.example.curlingmanagement.view;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -56,6 +59,8 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 
 	private final IntentFilter mFilter = new IntentFilter(ACTION_LOGOUT);
 	
+	private final ScheduledExecutorService mScheduler = Executors.newSingleThreadScheduledExecutor();
+	
 	private LoaderManager.LoaderCallbacks<ArrayList<Game>> mCallbacks;
 
 	private UsersServiceHelper mLogoutServiceHelper;
@@ -87,7 +92,7 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 			CurlingManagement.setSession(new Session(mUsername, mAuthToken));
 			Log.v(TAG, "initializing loader");
 			LoaderManager lm = getLoaderManager();
-			lm.initLoader(LOADER_ID, null, mCallbacks);
+			lm.initLoader(LOADER_ID, null, mCallbacks);			
 		}
 	}
 
@@ -114,17 +119,15 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		registerReceiver(mBroadcastReceiver, mFilter);
 		mLogoutServiceHelper = new UsersServiceHelper(this, ACTION_LOGOUT);
 		mUpdateGamesHelper = new GamesServiceHelper(this, ACTION_CHANGE_GAMES);
+		if(mLoggedIn) {
+			scheduleSync();
+		}
 	}    
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.v(TAG, "onResume()");
-		if(mLoggedIn) 
-		{    		
-			Log.v(TAG, "onResume(), fetching games from server");       	
-			mUpdateGamesHelper.getGames(mUsername, null, mAuthToken);
-		}
 	}
 
 	@Override
@@ -189,6 +192,7 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 				Log.v(TAG, "initializing loader");
 				LoaderManager lm = getLoaderManager();
 				lm.initLoader(LOADER_ID, null, mCallbacks);
+				scheduleSync();
 				
 				mLoggedIn = true;
 			} else if(resultCode == RESULT_CANCELED) {
@@ -268,6 +272,15 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		else {
 			return true;
 		}
+	}
+	
+	private void scheduleSync() {
+		mScheduler.scheduleAtFixedRate(
+				new Runnable() {
+					public void run() {
+						mUpdateGamesHelper.getGames(mUsername, null, mAuthToken);
+					}
+				}, 0, Constants.SYNC_INTERVAL, TimeUnit.SECONDS);
 	}
 
 	public void logout(View view) {
