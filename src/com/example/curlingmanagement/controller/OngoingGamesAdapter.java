@@ -46,6 +46,8 @@ public class OngoingGamesAdapter extends ArrayAdapter<Game> {
 			holder = new GameHolder();
 			holder.txtHomeUsername = (TextView)row.findViewById(R.id.txt_home_username);
 			holder.txtAwayUsername = (TextView)row.findViewById(R.id.txt_away_username);
+			holder.txtHomeScore = (TextView)row.findViewById(R.id.txt_home_score);
+			holder.txtAwayScore = (TextView)row.findViewById(R.id.txt_away_score);
 			
 			row.setTag(holder);
 		}
@@ -57,6 +59,8 @@ public class OngoingGamesAdapter extends ArrayAdapter<Game> {
 		Game game = mOngoingGames.get(position);
 		holder.txtHomeUsername.setText(game.getHomeUsername());
 		holder.txtAwayUsername.setText(game.getAwayUsername());
+		holder.txtHomeScore.setText(String.valueOf(game.getHomeScore()));
+		holder.txtAwayScore.setText(String.valueOf(game.getAwayScore()));
 		
 		return row;
 	}
@@ -64,6 +68,8 @@ public class OngoingGamesAdapter extends ArrayAdapter<Game> {
 	static class GameHolder {
 		TextView txtHomeUsername; 
 		TextView txtAwayUsername;
+		TextView txtHomeScore;
+		TextView txtAwayScore;
 	}
 	
 }

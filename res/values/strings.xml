@@ -11,7 +11,7 @@
     <string name="button_manage_team">Manage team</string>
     <string name="button_new_game">New game</string>
     <string name="button_logout">Logout</string>
-    <string name="listview_versus_text">vs.</string>
+    <string name="listview_versus_text">-</string>
     <string name="ui_activity_logging_out">Logging out</string>
 
     <!-- Strings for activity_game_menu -->
