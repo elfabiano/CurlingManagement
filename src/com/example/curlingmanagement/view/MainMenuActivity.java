@@ -1,5 +1,6 @@
 package com.example.curlingmanagement.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -326,7 +327,7 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 	public void goToGameMenu(View view, Game game) {
 		if(game != null) {
 			Intent intent = new Intent(this, GameMenuActivity.class);
-			intent.putExtra(Constants.GAME, (Parcelable) game);
+			intent.putExtra(Constants.GAME, (Serializable) game);
 			startActivity(intent);
 		}
 	}

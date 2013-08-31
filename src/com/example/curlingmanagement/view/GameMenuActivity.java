@@ -44,13 +44,16 @@ public class GameMenuActivity extends Activity {
 		
 		Log.i(TAG, "onCreate()");
 		
-		mGame = (Game) getIntent().getParcelableExtra(Constants.GAME);
+		mGame = (Game) getIntent().getSerializableExtra(Constants.GAME);
 		
 		TextView homeUser = (TextView) findViewById(R.id.home_username);
 		TextView awayUser = (TextView) findViewById(R.id.away_username);
 
 		homeUser.setTextSize(16);
 		awayUser.setTextSize(16);
+		
+		homeUser.setText(mGame.getHomeUsername());
+		awayUser.setText(mGame.getAwayUsername());
 		
 		// Show the Up button in the action bar.
 		//setupActionBar();
