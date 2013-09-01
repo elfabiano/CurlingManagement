@@ -1,7 +1,6 @@
 package com.example.curlingmanagement.view;
 
 import com.example.curlingmanagement.R;
-import com.example.curlingmanagement.controller.UserInterfaceController;
 import com.example.curlingmanagement.resources.model.Game;
 
 import android.annotation.TargetApi;
@@ -70,13 +69,13 @@ public class NewGameActivity extends Activity {
      * Called when the user clicks the "Find random opponent" button
      */
 	public void findRandomOpponent(View view) {
-		Game game = UserInterfaceController.getInstance().searchRandomOpponent();
-		if(game != null) {    	
-			Intent intent = new Intent(this, MainMenuActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			startActivity(intent);
-		}
-    }
+
+		//TODO: Add a new game on server
+		
+		Intent intent = new Intent(this, MainMenuActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
 	
 	/**
 	 * Called when user clicks the "Friends list" button

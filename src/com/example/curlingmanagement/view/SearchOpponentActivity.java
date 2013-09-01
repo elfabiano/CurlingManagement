@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.curlingmanagement.R;
-import com.example.curlingmanagement.controller.UserInterfaceController;
 
 /**
  * Controller class for the search opponent page
@@ -69,10 +68,10 @@ public class SearchOpponentActivity extends Activity {
 		EditText editText = (EditText)findViewById(R.id.search_opponent_text_field);
 		String key = editText.getText().toString();
 		
-		UserInterfaceController.getInstance().newGame(key);
+		//TODO: Add a new game on server
 		
 		Intent intent = new Intent(this, MainMenuActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
 }

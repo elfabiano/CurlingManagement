@@ -89,6 +89,9 @@ public class OngoingGamesLoader extends AsyncTaskLoader<ArrayList<Game>> {
 						));
 		}
 		
+		c.close();
+		db.close();
+		
 		return data;
 	}
 	

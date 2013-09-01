@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.curlingmanagement.authenticator.Session;
 import com.example.curlingmanagement.controller.GameModuleController;
 import com.example.curlingmanagement.controller.ManagerModuleController;
-import com.example.curlingmanagement.controller.UserInterfaceController;
 
 /**
  * Application class. Lives as long as the application is running. Can be reached via the
@@ -45,7 +44,6 @@ public class CurlingManagement extends Application {
 	 * Initializes the module controllers.
 	 */
 	protected void initModules() {
-		UserInterfaceController.initialize();
 		ManagerModuleController.initialize();
 		GameModuleController.initialize();
 	}

@@ -1,6 +1,5 @@
 package com.example.curlingmanagement.view;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.curlingmanagement.Constants;
 import com.example.curlingmanagement.R;
-import com.example.curlingmanagement.controller.UserInterfaceController;
 import com.example.curlingmanagement.resources.model.Game;
 
 /**
@@ -59,10 +57,7 @@ public class GameMenuActivity extends Activity {
 		//setupActionBar();
 	}
 
-	/**
-	 * Set up the {@link android.app.ActionBar}, if the API is available.
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@SuppressWarnings("unused")
 	private void setupActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,9 +98,9 @@ public class GameMenuActivity extends Activity {
     public void resign(View view) {
     	Intent intent = new Intent(this, MainMenuActivity.class);
     	
-    	UserInterfaceController.getInstance().resignGame(mGame);
+    	//TODO: Resign game by changing status or deleting from database
     	
-    	intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	startActivity(intent);
     	finish();
     }

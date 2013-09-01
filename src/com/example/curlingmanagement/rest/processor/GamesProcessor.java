@@ -55,9 +55,12 @@ public class GamesProcessor {
 			values.put(GamesTable.COLUMN_NAME_MODIFIED, game.getModified());
 			
 			if(db.insert(GamesTable.TABLE_NAME, null, values) == -1) {
+				db.close();
 				return false;
 			}
 		}
+		
+		db.close();
 		return true;
 	}
 	
@@ -87,8 +90,10 @@ public class GamesProcessor {
 		values.put(GamesTable.COLUMN_NAME_MODIFIED, game.getModified());
 		
 		if(db.insert(GamesTable.TABLE_NAME, null, values) == -1) {
+			db.close();
 			return false;
 		} else {
+			db.close();
 			return true;
 		}
 	}
@@ -121,8 +126,10 @@ public class GamesProcessor {
 		String[] selectionArgs = {String.valueOf(updatedGame.getServerId())};
 		
 		if(db.update(GamesTable.TABLE_NAME, values, selection, selectionArgs) > 0) {
+			db.close();
 			return true;
 		}
+		db.close();
 		return false;
 	}
 
@@ -136,8 +143,10 @@ public class GamesProcessor {
 			String[] selectionArgs = {String.valueOf(id)};
 			
 			if(db.delete(GamesTable.TABLE_NAME, selection, selectionArgs) > 0) {
+				db.close();
 				return true;
 			}
+			db.close();
 		}	
 		return false;
 	}
