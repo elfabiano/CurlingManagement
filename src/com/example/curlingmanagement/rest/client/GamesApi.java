@@ -225,13 +225,13 @@ public class GamesApi implements IGamesApi {
 				}				
 			}
 		} catch (ClientProtocolException e) {
-			Log.e(TAG, "ClientProtocolException when getting games", e);
+			Log.e(TAG, "ClientProtocolException when adding game", e);
 			return null;
 		} catch (IOException e) {
-			Log.e(TAG, "IOException when getting games", e);
+			Log.e(TAG, "IOException when adding game", e);
 			return null;
 		}catch (JSONException e) {
-			Log.e(TAG, "JSONException when getting games", e);
+			Log.e(TAG, "JSONException when adding game", e);
 			return null;
 		}
 	}

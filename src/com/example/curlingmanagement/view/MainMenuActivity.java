@@ -118,7 +118,7 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 		Log.v(TAG, "onStart()");
 		registerReceiver(mBroadcastReceiver, mFilter);
 		mLogoutServiceHelper = new UsersServiceHelper(this, ACTION_LOGOUT);
-		mUpdateGamesHelper = new GamesServiceHelper(this, ACTION_CHANGE_GAMES);
+		mUpdateGamesHelper = new GamesServiceHelper(getApplicationContext(), ACTION_CHANGE_GAMES);
 		if(mLoggedIn) {
 			scheduleSync();
 		}
@@ -134,7 +134,7 @@ implements LoaderManager.LoaderCallbacks<ArrayList<Game>> {
 	public Loader<ArrayList<Game>> onCreateLoader(int id, Bundle args) {
 		Log.v(TAG, "onCreateLoader()");
 		
-		return new OngoingGamesLoader(this);
+		return new OngoingGamesLoader(getApplicationContext());
 	}
 
 	@Override

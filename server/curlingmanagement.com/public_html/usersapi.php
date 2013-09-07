@@ -55,9 +55,9 @@
 		 *  Database connection 
 		*/
 		private function dbConnect(){
-			$this->db = mysql_connect(self::DB_SERVER,self::DB_USER,self::DB_PASSWORD);
+			$this->db = mysqli_connect(self::DB_SERVER,self::DB_USER,self::DB_PASSWORD);
 			if($this->db)
-				mysql_select_db(self::DB,$this->db);
+				mysqli_select_db($this->db, self::DB);
 		}
 		
 		/*
@@ -92,12 +92,16 @@
 			if(!empty($username) and !empty($password)) {					
 					do {
 					$auth_tkn = $this->new_auth_token();
-					//$auth_tkn = "glpebsgy";
-					$sql = mysql_query("UPDATE users SET auth_token = '$auth_tkn', logged_in = 1 
-								WHERE username = '$username' AND password = '$password'", $this->db); 
-					} while(!$sql);
+					$stmt = mysqli_prepare($this->db, 
+											"UPDATE users set auth_token = ?, logged_in = 1
+											WHERE username = ? AND password = ?");
+					mysqli_stmt_bind_param($stmt, "sss", $auth_tkn, $username, $password);
+					$success = mysqli_stmt_execute($stmt);
+					//$sql = mysql_query("UPDATE users SET auth_token = '$auth_tkn', logged_in = 1 
+						//		WHERE username = '$username' AND password = '$password'", $this->db); 
+					} while(!$success);
 					
-					if(mysql_affected_rows() > 0) {							
+					if(mysqli_affected_rows($this->db) > 0) {							
 						$auth_tkn_array = array("auth_token" => $auth_tkn);
 						// If success everything is good send header as "OK" and user details
 						$this->response($this->json($auth_tkn_array), 200);
@@ -121,9 +125,15 @@
 			
 			// Input validations
 			if(!empty($username)) {
-				$sql = mysql_query("UPDATE users SET logged_in = 0 WHERE username = '$username' 
-									AND auth_token = '$auth_token'", $this->db);
-				if(mysql_affected_rows() > 0){
+				$stmt = mysqli_prepare($this->db, 
+										"UPDATE users SET logged_in = 0 
+										WHERE username = ? AND auth_token = ?");
+				mysqli_stmt_bind_param($stmt, "ss", $username, $auth_token);
+				$success = mysqli_stmt_execute($stmt);
+				
+				//$sql = mysql_query("UPDATE users SET logged_in = 0 WHERE username = '$username' 
+					//				AND auth_token = '$auth_token'", $this->db);
+				if(mysqli_affected_rows($this->db) > 0){
 					// If success everything is good send header as "OK" and user details
 					$this->response('', 200);
 				}else{
@@ -148,23 +158,25 @@
 			$password = $this->_request['password'];
 			$email = $this->_request['email'];
 			
-			if(empty($email)) {
-				$email = NULL;
-			}
-			
-			if(!filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($email)) {
+			if(isset($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				$error = array('status' => "Forbidden", "msg" => "Not a valid email address");
 				$this->response($this->json($error), 403);
 			}
 			// Input validations
-			if(!empty($username) and !empty($password)) {
-				$sql = mysql_query("INSERT INTO users (username, password, email) 
-									VALUES ('$username', '$password', '$email')", $this->db);
+			if(isset($username) and isset($password)) {
+				$stmt = mysqli_prepare($this->db,
+										"INSERT INTO users (username, password, email)
+										VALUES(?, ?, ?)");
+				mysqli_stmt_bind_param($stmt, "sss", $username, $password, $email);
+				$success = mysqli_stmt_execute($stmt);
+				
+				//$sql = mysql_query("INSERT INTO users (username, password, email) 
+									//VALUES ('$username', '$password', '$email')", $this->db);
 				/*$sql = mysql_query("INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')
 									IF NOT(SELECT * FROM users WHERE username == '$username')", $this->db);*/
-				if($sql) {
+				if($success) {
 					$this->response('', 200);
-				} else if(!$sql) {
+				} else if(!$success) {
 					$error = array('status' => "Failed", 'message' => "User already exists");
 					$this->response($this->json($error), 409);
 				} 
@@ -183,20 +195,23 @@
 			$password = $this->_request['password'];
 			$email = $this->_request['email'];
 			
-			if(empty($email)) {
-				$email = NULL;
-			}
-			
-			if(!filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($email)) {
+			if(isset($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				$error = array('status' => "Forbidden", "msg" => "Not a valid email address");
 				$this->response($this->json($error), 403);
 			}
 				
 			// Input validations
-			if(!empty($username) and !empty($password)) {
-				$sql = mysql_query("UPDATE users SET password = '$password', email = '$email'
-						WHERE username = '$username'", $this->db);
-				if(mysql_affected_rows() > 0){
+			if(isset($username) and isset($password)) {
+				$stmt = mysqli_prepare($this->db, 
+										"UPDATE users SET password = ?, email = ?
+										WHERE username = ?");
+				mysqli_stmt_bind_param($stmt, "sss", $password, $email, $username);
+				$success = mysqli_stmt_execute($stmt);
+				
+				//$sql = mysql_query("UPDATE users SET password = '$password', email = '$email'
+				//		WHERE username = '$username'", $this->db);
+				
+				if(mysqli_affected_rows($this->db) > 0){
 					// If success everything is good send header as "OK" and user details
 					$this->response('', 200);
 				} else {
@@ -218,9 +233,14 @@
 			$username = $this->_request['username'];		
 			$password = $this->_request['password'];
 			
-			if(!empty($username) and !empty($password)) {
-				mysql_query("DELETE FROM users WHERE username = '$username' AND password = '$password'", $this->db);
-				if(mysql_affected_rows() > 0) {
+			if(isset($username) and isset($password)) {
+				$stmt = mysqli_prepare($this->db, 
+										"DELETE FROM users WHERE username = ? AND password = ?");
+				mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+				mysqli_stmt_execute($stmt);
+				
+				//mysql_query("DELETE FROM users WHERE username = '$username' AND password = '$password'", $this->db);
+				if(mysqli_affected_rows($this->db) > 0) {
 					$success = array('status' => "Success", "msg" => "Successfully one record deleted.");
 					$this->response($this->json($success),200);
 				}else{

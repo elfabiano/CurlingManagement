@@ -1,17 +1,20 @@
 package com.example.curlingmanagement.view;
 
-import com.example.curlingmanagement.R;
-import com.example.curlingmanagement.resources.model.Game;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.example.curlingmanagement.CurlingManagement;
+import com.example.curlingmanagement.R;
+import com.example.curlingmanagement.rest.service.GamesServiceHelper;
 
 /**
  * Controller class for the new game page
@@ -21,6 +24,7 @@ import android.view.View;
  */
 public class NewGameActivity extends Activity {
 //	public final static String GAME = "com.example.curlingmanagement.NEW_GAME";
+	public static final String TAG = "NewGameActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,20 @@ public class NewGameActivity extends Activity {
 	public void findRandomOpponent(View view) {
 
 		//TODO: Add a new game on server
+		GamesServiceHelper randomGameHelper = 
+				new GamesServiceHelper(getApplicationContext(), MainMenuActivity.ACTION_CHANGE_GAMES);
+		randomGameHelper.addGame(
+				CurlingManagement.session.getUsername(), 
+				"random", 
+				null, 
+				CurlingManagement.session.getAuthToken());
+		
+		Log.v(TAG, "authToken: " + CurlingManagement.session.getAuthToken());
+		
+		String toastMessage = "Searching for an opponent. A new game will be started shortly.";
+		
+		Toast toast = Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT);
+		toast.show();
 		
 		Intent intent = new Intent(this, MainMenuActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
