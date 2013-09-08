@@ -89,7 +89,7 @@
 			$password = $this->_request['password'];
 			
 			// Input validations
-			if(!empty($username) and !empty($password)) {					
+			if(isset($username) and isset($password)) {					
 					do {
 					$auth_tkn = $this->new_auth_token();
 					$stmt = mysqli_prepare($this->db, 
