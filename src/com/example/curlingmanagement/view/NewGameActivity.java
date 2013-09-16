@@ -74,7 +74,6 @@ public class NewGameActivity extends Activity {
      */
 	public void findRandomOpponent(View view) {
 
-		//TODO: Add a new game on server
 		GamesServiceHelper randomGameHelper = 
 				new GamesServiceHelper(getApplicationContext(), MainMenuActivity.ACTION_CHANGE_GAMES);
 		randomGameHelper.addGame(

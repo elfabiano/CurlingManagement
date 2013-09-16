@@ -205,17 +205,41 @@ public class GamesApi implements IGamesApi {
 
 				JSONObject obj = new JSONObject(result);
 
-				Game game = (new Game(obj.getInt("id"), 
-						obj.getString("status"),
-						obj.getString("waiting_for"),
-						obj.getInt("current_state_id"),
-						obj.getInt("previous_state_id"),
-						obj.getInt("home_score"),
-						obj.getInt("away_score"),
-						obj.getInt("stones_played"),
-						obj.getString("home_username"),
-						obj.getString("away_username"),
-						obj.getString("modified")));				
+				Game game = new Game();
+				
+				if(!obj.isNull(PARAM_ID)) {
+					game.setServerId(obj.getInt(PARAM_ID));
+				}
+				if(!obj.isNull(PARAM_STATUS)) {
+					game.setStatus(obj.getString(PARAM_STATUS));
+				}
+				if(!obj.isNull(PARAM_WAITING_FOR)) {
+					game.setWaitingFor(obj.getString(PARAM_WAITING_FOR));
+				}
+				if(!obj.isNull(PARAM_CURRENT_STATE_ID)) {
+					game.setCurrentStateId(obj.getInt(PARAM_CURRENT_STATE_ID));
+				}
+				if(!obj.isNull(PARAM_PREVIOUS_STATE_ID)) {
+					game.setPreviousStateId(obj.getInt(PARAM_PREVIOUS_STATE_ID));
+				}
+				if(!obj.isNull(PARAM_HOME_SCORE)) {
+					game.setHomeScore(obj.getInt(PARAM_HOME_SCORE));
+				}
+				if(!obj.isNull(PARAM_AWAY_SCORE)) {
+					game.setAwayScore(obj.getInt(PARAM_AWAY_SCORE));
+				}
+				if(!obj.isNull(PARAM_STONES_PLAYED)) {
+					game.setStonesPlayed(obj.getInt(PARAM_STONES_PLAYED));
+				}
+				if(!obj.isNull(PARAM_HOME_USERNAME)) {
+					game.setHomeUsername(obj.getString(PARAM_HOME_USERNAME));
+				}
+				if(!obj.isNull(PARAM_AWAY_USERNAME)) {
+					game.setAwayUsername(obj.getString(PARAM_AWAY_USERNAME));
+				}
+				if(!obj.isNull(PARAM_MODIFIED)) {
+					game.setModified(obj.getString(PARAM_MODIFIED));
+				}			
 				
 				return game;
 			} 

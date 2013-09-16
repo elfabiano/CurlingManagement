@@ -112,30 +112,45 @@
 				//$auth = mysqli_query($this->db, "SELECT * FROM users WHERE auth_token = '$auth_token' LIMIT 1");
 				if(mysqli_stmt_num_rows($stmt_auth) == 1) {
 					if(empty($status)) {
-						$stmt = mysqli_prepare($this->db, 
-												"SELECT * FROM games
-												WHERE home_username = ? OR away_username = ? OR waiting_for = ?");
-						mysqli_stmt_bind_param($stmt, "sss", $username, $username, $username);
-						$result = mysqli_stmt_execute($stmt);
+						//$stmt = mysqli_prepare($this->db, 
+							//					"SELECT * FROM games
+								//				WHERE home_username = ? OR away_username = ? OR waiting_for = ?");
+						//mysqli_stmt_bind_param($stmt, "sss", $username, $username, $username);
+						//$result = mysqli_stmt_execute($stmt);
+						
+						$query = "SELECT * FROM games WHERE home_username = '$username'
+								  OR away_username = '$username' OR waiting_for = '$username'";
+						
+						$result = mysqli_query($this->db, $query);
 						
 						//$sql = mysql_query("SELECT * FROM games 
 								//WHERE home_username = '$username' OR away_username = '$username' OR waiting_for = '$username'", $this->db);
 					} else {
-						$stmt = mysqli_prepare($this->db,
-												"SELECT * FROM games
-												WHERE status = ? AND
-												(home_username = ? OR away_username = ? OR waiting_for = ?)");
-						mysqli_stmt_bind_param($stmt, "ssss", $status, $username, $username, $username);
-						$result = mysqli_stmt_execute($stmt);
+// 						$stmt = mysqli_prepare($this->db,
+// 												"SELECT * FROM games
+// 												WHERE status = ? AND
+// 												(home_username = ? OR away_username = ? OR waiting_for = ?)");
+// 						mysqli_stmt_bind_param($stmt, "ssss", $status, $username, $username, $username);
+// 						$result = mysqli_stmt_execute($stmt);
 						
+						$query = "SELECT * FROM games WHERE status = '$status'
+								  AND (home_username = '$username'
+								  OR away_username = '$username' OR waiting_for = '$username')";
+						
+						$result = mysqli_query($this->db, $query);
 						//$sql = mysql_query("SELECT * FROM games 
 							//	WHERE status = '$status' AND 
 								//(home_username = '$username' OR away_username = '$username' OR waiting_for = '$username')", $this->db);
 					}
-					while($row = mysqli_fetch_assoc($result)) {
-						$results[] = $row;
+					if($result) {
+						while($row = mysqli_fetch_assoc($result)) {							
+							$results[] = $row;
+						}
+						$this->response($this->json($results), 200);
 					}
-					$this->response($this->json($results), 200);
+					else {
+						$this->response('', 500);
+					}
 				} else {
 					$this->response('', 401);
 				}

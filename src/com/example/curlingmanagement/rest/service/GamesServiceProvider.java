@@ -62,7 +62,7 @@ public class GamesServiceProvider implements IServiceProvider {
 		String waitingFor = extras.getString(Methods.ADD_GAME_PARAM_WAITING_FOR);
 		String username = extras.getString(Methods.ADD_GAME_PARAM_USERNAME);
 		String authToken = extras.getString(Methods.ADD_GAME_PARAM_AUTH_TOKEN);
-		return new GamesProcessor(mContext).addGame(status, waitingFor, username, authToken);
+		return new GamesProcessor(mContext).addGame(username, status, waitingFor, authToken);
 	}
 	
 	private boolean updateGame(Bundle extras) {
